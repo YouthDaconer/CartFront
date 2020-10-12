@@ -1,0 +1,14 @@
+<h3>{{titulo}}</h3>
+
+<table border="1">
+  <tr>
+    <td>payId</td>
+    <td>Nombre</td>
+  </tr>
+
+  <tr *ngFor="let paymentMethod of paymentMethods">
+    <td>{{paymentMethod.payId}}</td>
+    <td>{{paymentMethod.name}}</td>
+  </tr>
+
+</table>

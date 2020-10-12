@@ -1,0 +1,20 @@
+<h3>{{titulo}}</h3>
+
+<table border="1">
+  <tr>
+    <td>shprId</td>
+    <td>proId</td>
+    <td>carId</td>
+    <td>quantity</td>
+    <td>total</td>
+  </tr>
+
+  <tr *ngFor="let shoppingProduct of shoppingProducts">
+    <td>{{shoppingProduct.shprId}}</td>
+    <td>{{shoppingProduct.proId}}</td>
+    <td>{{shoppingProduct.carId}}</td>
+    <td>{{shoppingProduct.quantity}}</td>
+    <td>{{shoppingProduct.total}}</td>
+  </tr>
+
+</table>
