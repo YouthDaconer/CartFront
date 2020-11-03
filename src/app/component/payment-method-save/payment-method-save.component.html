@@ -1,0 +1,19 @@
+<div *ngIf="paymentMethod"></div>
+
+<div *ngIf="showMsg">
+    <p *ngFor="let msg of messages">
+        {{ msg }}
+    </p>
+</div>
+
+<form #paymentMethodForm="ngForm">
+    <input type="text" name="name" id="name" #name placeholder="Name" [(ngModel)]="paymentMethod.name" /><br />
+    <select name="enable" id="enable" #enable [(ngModel)]="paymentMethod.enable">
+        <option *ngFor="let enable of enables" [value]="enable.id">
+            {{ enable.name }}
+        </option>
+    </select>
+    <br />
+    <button (click)="save()">Save</button>
+    <button routerLink="/payment-method-list">Cancel</button>
+</form>

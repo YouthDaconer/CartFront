@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "cart-cacu": {
+      "hosting": {
+        "cart-front": [
+          "cart-cacu"
+        ]
+      }
+    }
+  }
+}

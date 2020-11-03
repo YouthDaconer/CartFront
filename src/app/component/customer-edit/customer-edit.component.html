@@ -1,0 +1,28 @@
+<div *ngIf="customer">
+
+    <div *ngIf="showMsg">
+        <p *ngFor="let msg of messages">
+            {{ msg }}
+        </p>
+    </div>
+
+    <form #customerForm="ngForm">
+        <input readonly type="email" name="email" id="email" #email placeholder="Email"
+            [(ngModel)]="customer.email" /><br />
+        <input type="text" name="name" id="name" #name placeholder="Nombre" [(ngModel)]="customer.name" /><br />
+        <input type="text" name="address" id="address" #address placeholder="Dirección"
+            [(ngModel)]="customer.address" /><br />
+        <input type="text" name="phone" id="phone" #phone placeholder="Teléfono" [(ngModel)]="customer.phone" /><br />
+        <input type="text" name="token" id="token" #token placeholder="Token" [(ngModel)]="customer.token" /><br />
+        <select name="enable" id="enable" #enable [(ngModel)]="customer.enable">
+            <option *ngFor="let enable of enables" [value]="enable.id">
+                {{enable.name }}
+            </option>
+        </select>
+        <br />
+        <button (click)="update()">Edit</button>
+        <button (click)="delete()">Delete</button>
+        <button routerLink="/customer-list">Cancel</button>
+    </form>
+
+</div>

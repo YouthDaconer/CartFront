@@ -10,6 +10,14 @@ import { ProductListComponent } from './component/product-list/product-list.comp
 import { PaymentMethodListComponent } from './component/payment-method-list/payment-method-list.component';
 import { ShoppingCartListComponent } from './component/shopping-cart-list/shopping-cart-list.component';
 import { ShoppingProductListComponent } from './component/shopping-product-list/shopping-product-list.component';
+import { CustomerSaveComponent } from './component/customer-save/customer-save.component';
+
+import { FormsModule } from '@angular/forms';
+import { CustomerEditComponent } from './component/customer-edit/customer-edit.component';
+import { ProductSaveComponent } from './component/product-save/product-save.component';
+import { ProductEditComponent } from './component/product-edit/product-edit.component';
+import { PaymentMethodSaveComponent } from './component/payment-method-save/payment-method-save.component';
+import { PaymentMethodEditComponent } from './component/payment-method-edit/payment-method-edit.component';
 
 @NgModule({
   declarations: [
@@ -18,12 +26,19 @@ import { ShoppingProductListComponent } from './component/shopping-product-list/
     ProductListComponent,
     PaymentMethodListComponent,
     ShoppingCartListComponent,
-    ShoppingProductListComponent
+    ShoppingProductListComponent,
+    CustomerSaveComponent,
+    CustomerEditComponent,
+    ProductSaveComponent,
+    ProductEditComponent,
+    PaymentMethodSaveComponent,
+    PaymentMethodEditComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
