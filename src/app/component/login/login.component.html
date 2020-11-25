@@ -1,0 +1,15 @@
+<div *ngIf="showMsg">
+    <p *ngFor="let msg of messages">
+        {{ msg }}
+    </p>
+</div>
+
+<form #loginForm="ngForm">
+    <input type="email" name="username" id="username" #username="ngModel" placeholder="Username"
+        [(ngModel)]="user.username" />
+    <br />
+    <input type="password" name="password" id="password" #password="ngModel" placeholder="password"
+        [(ngModel)]="user.password" />
+    <br />
+    <button (click)="ingresar()">Ingresar</button>
+</form>

@@ -50,7 +50,7 @@ export class CustomerEditComponent implements OnInit {
       this.showMsg = true;
       this.messages[0] = "El customer se modificó con éxito";
     }, error => {
-      console.error(error);
+      console.log(error);
       this.showMsg = true;
       this.messages = error.error.error;
     })

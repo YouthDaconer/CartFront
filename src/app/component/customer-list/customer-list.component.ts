@@ -25,7 +25,7 @@ export class CustomerListComponent implements OnInit {
     this.customerService.findAll().subscribe(data => {
       this.customers = data;
     }, error => {
-      console.error(error);
+      console.log(error);
     });
   }
 

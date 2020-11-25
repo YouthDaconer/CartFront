@@ -1,9 +1,9 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/domain/product';
 import { Enable } from 'src/app/domain/enable';
 import { ProductService } from 'src/app/service/product.service';
 import { EnableService } from 'src/app/service/enable.service';
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-product-save',
@@ -17,9 +17,10 @@ export class ProductSaveComponent implements OnInit {
 
   public showMsg: boolean = false;
   public messages: string[] = [""];
+  public cargando = false;
 
   constructor(public productService: ProductService,
-    public enableService: EnableService) { }
+    public enableService: EnableService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.product = new Product("", "", 0, "", "", "Y");
@@ -32,9 +33,16 @@ export class ProductSaveComponent implements OnInit {
 
   public save(): void {
     this.messages = [""];
+    this.cargando = true;
     this.productService.save(this.product).subscribe(ok => {
       this.showMsg = true;
-      this.messages[0] = "El product se grabó con éxito";
+      this.messages[0] = "El producto se grabó con éxito";
+      this.snackBar.open("Producto guardado", "", {
+        duration: 1500,
+        horizontalPosition: "start",
+        verticalPosition: "top",
+      });
+      this.cargando = false;
     }, err => {
       console.log(err);
       this.showMsg = true;

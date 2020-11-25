@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -13,24 +13,35 @@ export class ProductService {
 
   constructor(public httpClient: HttpClient) { }
 
+  createTokenHeader(): HttpHeaders {
+    let token = localStorage.getItem('token');
+    let headers = new HttpHeaders({ 'Authorization': token });
+    return headers;
+  }
+
   public findAll(): Observable<any> {
-    return this.httpClient.get(this.url + 'findAll');
+    let headers = this.createTokenHeader();
+    return this.httpClient.get(this.url + 'findAll', { headers: headers });
   }
 
   public findById(proId: string): Observable<any> {
-    return this.httpClient.get(this.url + 'findById/' + proId);
+    let headers = this.createTokenHeader();
+    return this.httpClient.get(this.url + 'findById/' + proId, { headers: headers });
   }
 
   public save(product: Product): Observable<any> {
-    return this.httpClient.post(this.url + 'save', product);
+    let headers = this.createTokenHeader();
+    return this.httpClient.post(this.url + 'save', product, { headers: headers });
   }
 
   public update(product: Product): Observable<any> {
-    return this.httpClient.put(this.url + 'update', product);
+    let headers = this.createTokenHeader();
+    return this.httpClient.put(this.url + 'update', product, { headers: headers });
   }
 
   public delete(proId: string): Observable<any> {
-    return this.httpClient.delete(this.url + 'delete/' + proId);
+    let headers = this.createTokenHeader();
+    return this.httpClient.delete(this.url + 'delete/' + proId, { headers: headers });
   }
 
 }

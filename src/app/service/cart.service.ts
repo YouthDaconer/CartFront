@@ -6,9 +6,9 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ShoppingCartService {
+export class CartService {
 
-  private url: string = environment.apiUrl + 'api/shoppingCart/';
+  private url: string = environment.apiUrl + 'api/cart/';
 
   createTokenHeader(): HttpHeaders {
     let token = localStorage.getItem('token');
@@ -18,14 +18,14 @@ export class ShoppingCartService {
 
   constructor(public httpClient: HttpClient) { }
 
-  public findAll(): Observable<any> {
+  public createCart(): Observable<any> {
     let headers = this.createTokenHeader();
-    return this.httpClient.get(this.url + 'findAll', { headers: headers });
+    return this.httpClient.get(this.url + 'createCart', { headers: headers });
   }
 
-  public findById(carId: string): Observable<any> {
+  public findShoppingProductByShoppingCart(carId: string): Observable<any> {
     let headers = this.createTokenHeader();
-    return this.httpClient.get(this.url + 'findById/' + carId, { headers: headers });
+    return this.httpClient.get(this.url + 'findShoppingProductByShoppingCart/' + carId, { headers: headers });
   }
 
 }

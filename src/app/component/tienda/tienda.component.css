@@ -1,0 +1,13 @@
+.g1{
+    width: 40% !important ;
+    background-color: red;
+  }
+  .g2{
+    width:60% !important;
+    background-color: blue;
+  
+  }
+  
+  .fullWidth{
+    width: 50% !important ;
+  }

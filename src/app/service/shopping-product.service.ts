@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -8,16 +8,24 @@ import { environment } from 'src/environments/environment';
 })
 export class ShoppingProductService {
 
-  private url:string = environment.apiUrl + 'api/shoppingProduct/';
+  private url: string = environment.apiUrl + 'api/shoppingProduct/';
 
-  constructor(public httpClient:HttpClient) {}
-
-  public findAll():Observable<any>{
-    return this.httpClient.get(this.url+'findAll');
+  createTokenHeader(): HttpHeaders {
+    let token = localStorage.getItem('token');
+    let headers = new HttpHeaders({ 'Authorization': token });
+    return headers;
   }
 
-  public findById(shprId:string):Observable<any>{
-    return this.httpClient.get(this.url+'findById/'+shprId);
+  constructor(public httpClient: HttpClient) { }
+
+  public findAll(): Observable<any> {
+    let headers = this.createTokenHeader();
+    return this.httpClient.get(this.url + 'findAll', { headers: headers });
+  }
+
+  public findById(shprId: string): Observable<any> {
+    let headers = this.createTokenHeader();
+    return this.httpClient.get(this.url + 'findById/' + shprId, { headers: headers });
   }
 
 }
