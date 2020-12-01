@@ -35,6 +35,7 @@ export class ProductService {
   }
 
   public update(product: Product): Observable<any> {
+    console.log(product);
     let headers = this.createTokenHeader();
     return this.httpClient.put(this.url + 'update', product, { headers: headers });
   }

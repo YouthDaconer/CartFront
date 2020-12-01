@@ -22,8 +22,8 @@ export class AppComponent implements OnInit {
     })
   }
 
-  public async refrescarCarrito() {
-    this.cartService.findShoppingProductByShoppingCart("4").subscribe(data => {
+  public refrescarCarrito() {
+    this.cartService.findShoppingProductByShoppingCart(4).subscribe(data => {
       this.shoppingProducts = data;
     }, error => {
       console.error(error);
@@ -35,10 +35,19 @@ export class AppComponent implements OnInit {
   }
 
   public total() {
-    console.log(this.shoppingProducts);
     let total = 0;
-    this.shoppingProducts.forEach(p => total += p.total);
+    if (typeof (this.shoppingProducts) !== "undefined") {
+      this.shoppingProducts.forEach(p => total += p.total);
+    }
     return total;
+  }
+
+  public numProductos() {
+    let suma = 0;
+    if (typeof (this.shoppingProducts) !== "undefined") {
+      this.shoppingProducts.forEach(p => suma += p.quantity);
+    }
+    return suma;
   }
 
   public isAuth(): boolean {

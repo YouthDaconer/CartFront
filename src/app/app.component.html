@@ -10,15 +10,16 @@
       <span class="example-fill-remaining-space"></span>
       <div *ngIf="isAuth()">
         <button mat-raised-button [matMenuTriggerFor]="menu">
-          <span style="margin-right: 10px" [matBadge]="shoppingProducts.length+''" matBadgeOverlap="false"
+          <span style="margin-right: 10px" [matBadge]="numProductos()+''" matBadgeOverlap="false"
             matBadgePosition="below after">Carrito de compras</span>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item *ngFor="let shp of shoppingProducts;">{{shp.name}} {{shp.price | currency}}</button>
+          <button mat-menu-item *ngFor="let shp of shoppingProducts;">{{shp.name}} {{shp.price | currency}} -
+            {{ shp.quantity }} Unid.</button>
           <button mat-menu-item>
             <strong>Total: {{total() | currency}}</strong>
           </button>
-          <a *ngIf="shoppingProducts.length > 0" mat-menu-item routerLink="/terminar_compra">
+          <a *ngIf="numProductos() > 0" mat-menu-item routerLink="/terminar_compra">
             <mat-icon>shopping_cart</mat-icon>
             Terminar compra
           </a>

@@ -24,6 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadingButtonComponent } from './component/loading-button/loading-button.component';
 import { TarjetaProductoComponent } from './component/tarjeta-producto/tarjeta-producto.component';
 import { TiendaComponent } from './component/tienda/tienda.component';
+import { DetalleDeProductoComponent } from './component/detalle-de-producto/detalle-de-producto.component';
 
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -45,6 +46,8 @@ import { MatBadgeModule } from "@angular/material/badge";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatStepperModule } from "@angular/material/stepper";
 import { MatSelectModule } from "@angular/material/select";
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -63,7 +66,8 @@ import { MatSelectModule } from "@angular/material/select";
     LoginComponent,
     LoadingButtonComponent,
     TarjetaProductoComponent,
-    TiendaComponent
+    TiendaComponent,
+    DetalleDeProductoComponent
   ],
   imports: [
     BrowserModule,
@@ -90,7 +94,9 @@ import { MatSelectModule } from "@angular/material/select";
     MatBadgeModule,
     MatMenuModule,
     MatStepperModule,
-    MatSelectModule
+    MatSelectModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]

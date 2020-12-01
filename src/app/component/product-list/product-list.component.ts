@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Product } from 'src/app/domain/product';
 import { ProductService } from 'src/app/service/product.service';
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-list',
@@ -10,34 +14,71 @@ import {Router} from "@angular/router";
 })
 export class ProductListComponent implements OnInit {
 
-  public titulo:string='Lista de Productos';
-  public products:Product[];
-  public columnas = ['nombre', 'descripcion', 'precio', 'eliminar'];
+  public titulo: string = 'Lista de Productos';
+  public products: Product[];
+  public columnas = ['name', 'detail', 'price', 'update', 'status'];
+  public dataSource = new MatTableDataSource<Product>();
 
-  constructor(private router: Router, public productService:ProductService) { }
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  constructor(private router: Router, public productService: ProductService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.findAll();
   }
 
-  findAll():void{
-    this.productService.findAll().subscribe(data=>{
-        this.products=data;
-    },error=>{
-        console.error(error);
+  findAll(): void {
+    this.productService.findAll().subscribe(res => {
+      this.dataSource.data = res as Product[];
+    }, error => {
+      console.error(error);
     });
   }
 
-  async eliminar(product) {
-    if (!confirm("¿Realmente lo quieres eliminar<?")) {
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  public customSort = (event) => {
+    console.log(event);
+  }
+
+  public desactivarProducto(product) {
+    if (!confirm("¿Realmente quieres desactivar el producto?")) {
       return;
     }
-    await this.productService.delete(product.id);
-    this.findAll();
+    product.enable = 'N';
+    this.productService.update(product).subscribe(ok => {
+      this.findAll();
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  public activarProducto(product) {
+    if (!confirm("¿Realmente quieres activar el producto?")) {
+      return;
+    }
+    product.enable = 'Y';
+    this.productService.update(product).subscribe(ok => {
+      this.findAll();
+    }, error => {
+      console.log(error);
+    });
   }
 
   navegarAFormulario() {
     this.router.navigateByUrl("/product-save");
+  }
+
+  public filtrar = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  public redirectToUpdate = (id: string) => {
+
   }
 
 }

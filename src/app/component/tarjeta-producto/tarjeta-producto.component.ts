@@ -8,19 +8,17 @@ import { Router } from "@angular/router";
 })
 export class TarjetaProductoComponent implements OnInit {
   @Input() producto: any;
+  public image: string = "";
 
   constructor(private router: Router) {
   }
 
   ngOnInit(): void {
-  }
-
-  public resolverRuta() {
-    return this.producto.foto;
+    this.image = this.producto.image.split(";")[0];
   }
 
   public detalles() {
-    this.router.navigate(["/producto/detalle", this.producto.id])
+    this.router.navigate(["/producto/detalle", this.producto.proId])
   }
 
 }

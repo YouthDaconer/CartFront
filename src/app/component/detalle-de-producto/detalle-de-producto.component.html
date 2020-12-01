@@ -1,0 +1,50 @@
+<mat-card>
+    <mat-grid-list cols="2">
+        <mat-grid-tile>
+            <div class="izquierda">
+
+                <img *ngFor="let foto of fotos; let i = index" (mouseenter)="seleccionarImagen(i)" class="imagen-izquierda" [class.seleccionada]="i==indiceSeleccionado" [src]="foto" alt="Foto">
+            </div>
+            <div>
+                <img *ngIf="fotoSeleccionada" [src]="fotoSeleccionada" alt="">
+            </div>
+            <br>
+        </mat-grid-tile>
+        <mat-grid-tile class="detalles">
+            <h1 class="mat-display-2">{{producto.name}}</h1>
+            <br />
+            <p>{{producto.detail}}</p>
+            <br />
+            <strong>Precio</strong>
+            <h1 class="mat-display-2">{{producto.price | currency}}</h1>
+            <br />
+            <mat-chip-list *ngIf="shoppingProductExistente !== null">
+                <mat-chip color="warn" selected>
+                    <mat-icon>check</mat-icon>
+                    En el carrito de compras - {{ shoppingProductExistente.quantity }} Unid.
+                </mat-chip>
+            </mat-chip-list>
+            <br />
+            <p>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="quantity" type="number" placeholder="Cantidad">
+                </mat-form-field>
+            </p>
+            <button *ngIf="shoppingProductExistente !== null" (click)="agregarAlCarrito()" mat-raised-button class="mat-buttonInfo">
+        <mat-icon>add</mat-icon>
+        Agregar al carrito
+      </button>
+            <button *ngIf="shoppingProductExistente === null" (click)="agregarAlCarrito()" class="carrito mat-buttonInfo" mat-raised-button>
+        <mat-icon>add</mat-icon>
+        Agregar al carrito
+      </button>
+            <button *ngIf="shoppingProductExistente !== null" (click)="quitarDelCarrito()" class="carrito" mat-raised-button color="accent">
+        <mat-icon>delete</mat-icon>
+        Quitar del carrito
+      </button>
+            <a routerLink="/tienda" class="comprar" mat-raised-button color="primary">
+        Seguir comprando
+      </a>
+        </mat-grid-tile>
+    </mat-grid-list>
+</mat-card>
