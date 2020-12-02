@@ -15,6 +15,11 @@ import { DetalleDeProductoComponent } from "./component/detalle-de-producto/deta
 import { TiendaComponent } from './component/tienda/tienda.component';
 import { LoginComponent } from './component/login/login.component';
 import { AuthGuard } from './guard/auth.guard';
+import { HomeComponent } from './component/home/home.component';
+import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import { ResetPasswordComponent } from './component/reset-password/reset-password.component';
+
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 
 const routes: Routes = [
   { path: 'customer-list', component: CustomerListComponent, canActivate: [AuthGuard] },
@@ -30,12 +35,18 @@ const routes: Routes = [
   { path: 'payment-method-edit/:payId', component: PaymentMethodEditComponent, canActivate: [AuthGuard] },
   { path: 'tienda', component: TiendaComponent, canActivate: [AuthGuard] },
   { path: 'producto/detalle/:proId', component: DetalleDeProductoComponent, canActivate: [AuthGuard] },
+  { path: 'reset-password', component: ResetPasswordComponent },
+  {
+    path: 'home', component: HomeComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
   { path: 'login', component: LoginComponent },
   { path: '', component: LoginComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -1,15 +1,101 @@
-<div *ngIf="showMsg">
-    <p *ngFor="let msg of messages">
-        {{ msg }}
-    </p>
-</div>
+<div class="login-page">
+  <mat-card class="mat-elevation-z12">
+    <br />
+    <mat-card-title style="text-align:center;">Mercasa Online</mat-card-title>
+    <br />
+    <mat-tab-group mat-stretch-tabs class="example-stretched-tabs" [(selectedIndex)]="selectTabIndex">
+      <mat-tab label="Iniciar sesión">
+        <mat-card-content>
+          <form #formLogin="ngForm" [formGroup]="formGroupLogin"
+            (ngSubmit)="ingresar(formGroupLogin.value, formLogin);">
+            <br />
+            <mat-form-field>
+              <input matInput placeholder="Email" required name="email" formControlName="email">
+              <mat-icon matSuffix>email</mat-icon>
+              <mat-error *ngIf="!formGroupLogin.controls['email'].valid && formGroupLogin.controls['email'].touched">
+                {{ getErrorEmailLogin() }}
+              </mat-error>
+            </mat-form-field>
+            <br />
+            <mat-form-field>
+              <input matInput placeholder="Contraseña" type="password" required name="password"
+                formControlName="password">
+              <mat-icon matSuffix>lock</mat-icon>
+              <mat-error
+                *ngIf="!formGroupLogin.controls['password'].valid && formGroupLogin.controls['password'].touched">
+                {{ getErrorPasswordLogin() }}
+              </mat-error>
+            </mat-form-field>
+            <br />
+            <mat-checkbox>Recuerdame</mat-checkbox>
+            <br />
+            <button mat-raised-button color="primary" class="login-button">
+              Ingresar
+            </button>
+          </form>
+        </mat-card-content>
+      </mat-tab>
+      <mat-tab label="Registro">
+        <mat-card-content>
+          <form #formRegister="ngForm" [formGroup]="formGroupRegistro"
+            (ngSubmit)="register(formGroupRegistro.value, formRegister);">
+            <mat-form-field>
+              <input matInput placeholder="Email" required name="emailRegistro" formControlName="email"
+                [(ngModel)]="customer.email">
+              <mat-icon matSuffix>email</mat-icon>
+              <mat-error
+                *ngIf="!formGroupRegistro.controls['email'].valid && formGroupRegistro.controls['email'].touched">
+                {{ getErrorEmailRegistro() }}
+              </mat-error>
+            </mat-form-field>
 
-<form #loginForm="ngForm">
-    <input type="email" name="username" id="username" #username="ngModel" placeholder="Username"
-        [(ngModel)]="user.username" />
-    <br />
-    <input type="password" name="password" id="password" #password="ngModel" placeholder="password"
-        [(ngModel)]="user.password" />
-    <br />
-    <button (click)="ingresar()">Ingresar</button>
-</form>
+            <mat-form-field>
+              <input matInput placeholder="Nombre" required name="name" formControlName="name"
+                [(ngModel)]="customer.name">
+              <mat-icon matSuffix>perm_identity</mat-icon>
+              <mat-error
+                *ngIf="!formGroupRegistro.controls['name'].valid && formGroupRegistro.controls['name'].touched">
+                {{ getErrorName() }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="Dirección" required name="address" formControlName="address"
+                [(ngModel)]="customer.address">
+              <mat-icon matSuffix>perm_identity</mat-icon>
+              <mat-error
+                *ngIf="!formGroupRegistro.controls['address'].valid && formGroupRegistro.controls['address'].touched">
+                {{ getErrorAddress() }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="Teléfono" required name="phone" formControlName="phone"
+                [(ngModel)]="customer.phone">
+              <mat-icon matSuffix>perm_identity</mat-icon>
+              <mat-error
+                *ngIf="!formGroupRegistro.controls['phone'].valid && formGroupRegistro.controls['phone'].touched">
+                {{ getErrorPhone() }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="Contraseña" type="password" required name="password"
+                formControlName="password">
+              <mat-icon matSuffix>lock</mat-icon>
+              <mat-hint>Escribe una contraseña de mínimo 6 caracteres, una letra mayuscula y un número</mat-hint>
+              <mat-error
+                *ngIf="!formGroupRegistro.controls['password'].valid && formGroupRegistro.controls['password'].touched">
+                {{ getErrorPasswordRegistro() }}
+              </mat-error>
+            </mat-form-field>
+            <br />
+            <button mat-raised-button color="primary" class="login-button">
+              Registrarse
+            </button>
+          </form>
+        </mat-card-content>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>

@@ -1,40 +1,45 @@
-<mat-card>
-    <h1>Agregar producto</h1>
-    <p>
-        <mat-form-field>
-            <input matInput [(ngModel)]="product.proId" type="text" placeholder="Producto ID">
-        </mat-form-field>
-    </p>
-    <p>
-        <mat-form-field>
-            <input matInput [(ngModel)]="product.name" type="text" placeholder="Nombre">
-        </mat-form-field>
-    </p>
-    <p>
-        <mat-form-field>
-            <textarea rows="10" matInput [(ngModel)]="product.detail" placeholder="Descripción"></textarea>
-        </mat-form-field>
-    </p>
-    <p>
-        <mat-form-field>
-            <textarea rows="10" matInput [(ngModel)]="product.image" placeholder="Imagen"></textarea>
-        </mat-form-field>
-    </p>
-    <label for="fotos">Imagen</label>
+<div class="flexbox-parent" novalidate>
+    <div layout="row" layout-align="center center" style="min-height: 500px">
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+            <h1>Agregar producto</h1>
 
-    <p>
-        <mat-form-field appearance="fill">
-            <mat-label>Estado</mat-label>
-            <mat-select>
-                <mat-option *ngFor="let enable of enables" [value]="enable.id">
-                    {{ enable.name }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </p>
+            <mat-form-field class="form-element">
+                <input matInput [(ngModel)]="product.proId" type="text" placeholder="Producto ID"
+                    formControlName="proId">
+                <mat-error *ngIf="!formGroup.controls['proId'].valid && formGroup.controls['proId'].touched">
+                    {{ getErrorProId() }}
+                </mat-error>
+            </mat-form-field>
 
-    <p>
-        <app-loading-button [cargando]="cargando" texto="Guardar" (click)="save()"></app-loading-button>
-        <a routerLink="/product-list" mat-raised-button color="primary" style="margin-left: 10px">Volver</a>
-    </p>
-</mat-card>
+            <mat-form-field class="form-element">
+                <input matInput [(ngModel)]="product.name" type="text" placeholder="Nombre"
+                    formControlName="name">
+                <mat-error *ngIf="!formGroup.controls['name'].valid && formGroup.controls['name'].touched">
+                    {{ getErrorName() }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="form-element">
+                <input type="text" currencyMask matInput [(ngModel)]="product.price"
+                    [options]="{ prefix: 'COP$ ', thousands: '.', decimal: ',', allowNegative: false, align: 'left' }"
+                    placeholder="Precio" formControlName="price" formControlName="name" />
+                <mat-error *ngIf="!formGroup.controls['price'].valid && formGroup.controls['price'].touched">
+                    {{ getErrorPrice() }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="form-element">
+                <textarea rows="10" matInput [(ngModel)]="product.detail" [ngModelOptions]="{standalone: true}"
+                    placeholder="Descripción"></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="form-element">
+                <textarea rows="10" matInput [(ngModel)]="product.image" [ngModelOptions]="{standalone: true}"
+                    placeholder="Imagen"></textarea>
+            </mat-form-field>
+
+            <app-loading-button [cargando]="cargando" texto="Guardar" (click)="save()"></app-loading-button>
+            <a routerLink="/product-list" mat-raised-button color="primary" style="margin-left: 10px">Volver</a>
+        </form>
+    </div>
+</div>

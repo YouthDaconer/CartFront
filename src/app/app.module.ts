@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -48,6 +49,15 @@ import { MatStepperModule } from "@angular/material/stepper";
 import { MatSelectModule } from "@angular/material/select";
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatCurrencyFormatModule } from 'mat-currency-format';
+import { CurrencyMaskModule } from "ng2-currency-mask";
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { environment } from 'src/environments/environment';
+import { HomeComponent } from './component/home/home.component';
+import { ResetPasswordComponent } from './component/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +77,9 @@ import { MatSortModule } from '@angular/material/sort';
     LoadingButtonComponent,
     TarjetaProductoComponent,
     TiendaComponent,
-    DetalleDeProductoComponent
+    DetalleDeProductoComponent,
+    HomeComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -96,7 +108,14 @@ import { MatSortModule } from '@angular/material/sort';
     MatStepperModule,
     MatSelectModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    ReactiveFormsModule,
+    MatCurrencyFormatModule,
+    CurrencyMaskModule,
+    MatTabsModule,
+    MatCheckboxModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

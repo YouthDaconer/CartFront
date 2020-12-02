@@ -1,7 +1,7 @@
 <div class="contenedor-padre">
-  <mat-toolbar class="barra" color="warn">
+  <mat-toolbar *ngIf="isAuth()" class="barra" color="warn">
     <mat-toolbar-row>
-      <button (click)="cajon.toggle()" mat-icon-button>
+      <button (click)="cajon.toggle()" mat-icon-button *ngIf="isAuth()">
         <mat-icon>menu</mat-icon>
       </button>
       <span>
@@ -25,13 +25,13 @@
           </a>
         </mat-menu>
       </div>
-      <a style="margin-left: 10px" mat-raised-button color="primary" href="https://google.com/" target="_blank">
-        Ayuda y soporte
-      </a>
+      <button style="margin-left: 10px" mat-raised-button color="primary" (click)="singOut()">
+        Cerrar Sesión
+      </button>
     </mat-toolbar-row>
   </mat-toolbar>
   <mat-sidenav-container class="contenido">
-    <mat-sidenav style="min-width: 300px;" #cajon opened mode="side">
+    <mat-sidenav style="min-width: 300px;" #cajon opened mode="side" *ngIf="isAuth()">
       <mat-nav-list>
         <p style="margin-left: 4px;">Administrador</p>
         <a mat-list-item routerLink="/product-list">

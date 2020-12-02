@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ShoppingProduct } from 'src/app/domain/shoppingProduct';
 import { CartService } from './service/cart.service';
 import { DataSharingService } from "./service/data-sharing.service";
+import { AuthCartService } from 'src/app/service/auth-cart.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +14,11 @@ export class AppComponent implements OnInit {
   title = 'cart-front';
   public shoppingProducts: ShoppingProduct[];
 
-  constructor(private cartService: CartService, private dataSharingService: DataSharingService) {
+  constructor(private cartService: CartService,
+    private dataSharingService: DataSharingService,
+    public authCartService: AuthCartService,
+    private route: ActivatedRoute,
+    private router: Router) {
 
     // Comunicación entre componentes
     this.dataSharingService.currentMessage.subscribe(mensaje => {
@@ -31,7 +37,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.refrescarCarrito();
+    if (this.isAuth()) {
+      this.refrescarCarrito();
+    }
   }
 
   public total() {
@@ -50,7 +58,22 @@ export class AppComponent implements OnInit {
     return suma;
   }
 
+  public singOut(): void {
+    this.authCartService.singOut()
+      .then(() => {
+        localStorage.clear();
+        this.router.navigate(['/login']);
+      })
+      .catch(e => {
+        this.router.navigate(['/login']);
+      });
+  }
+
   public isAuth(): boolean {
     return !!localStorage.getItem('usuario');
+  }
+
+  public toggleMenu(menu: any): void {
+    menu.toggle();
   }
 }

@@ -4,6 +4,8 @@ import { Enable } from 'src/app/domain/enable';
 import { ProductService } from 'src/app/service/product.service';
 import { EnableService } from 'src/app/service/enable.service';
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-product-save',
@@ -15,16 +17,22 @@ export class ProductSaveComponent implements OnInit {
   public product: Product;
   public enables: Enable[];
 
-  public showMsg: boolean = false;
-  public messages: string[] = [""];
   public cargando = false;
 
+  formGroup: FormGroup;
+  titleAlert: string = '';
+  post: any = '';
+
   constructor(public productService: ProductService,
-    public enableService: EnableService, private snackBar: MatSnackBar) { }
+    public enableService: EnableService,
+    private snackBar: MatSnackBar,
+    private formBuilder: FormBuilder,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.product = new Product("", "", 0, "", "", "Y");
     this.findAllEnable();
+    this.createForm();
   }
 
   public findAllEnable(): void {
@@ -32,22 +40,56 @@ export class ProductSaveComponent implements OnInit {
   }
 
   public save(): void {
-    this.messages = [""];
     this.cargando = true;
+    this.product.enable = 'Y';
     this.productService.save(this.product).subscribe(ok => {
-      this.showMsg = true;
-      this.messages[0] = "El producto se grabó con éxito";
       this.snackBar.open("Producto guardado", "", {
         duration: 1500,
         horizontalPosition: "start",
         verticalPosition: "top",
       });
       this.cargando = false;
+      this.router.navigate(['/product-list']);
     }, err => {
       console.log(err);
-      this.showMsg = true;
-      this.messages = err.error.error;
     });
+  }
+
+  createForm() {
+    this.formGroup = this.formBuilder.group({
+      'detail': [null, [Validators.required, Validators.minLength(5), Validators.minLength(3), Validators.maxLength(255)]],
+      'proId': [null, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      'name': [null, [Validators.required, Validators.minLength(4), Validators.maxLength(255)]],
+      'price': [null, [Validators.required, this.checkPrice]],
+      'image': [null, [Validators.required]],
+      'validate': ''
+    });
+  }
+
+  onSubmit(post) {
+    this.post = post;
+  }
+
+  getErrorProId() {
+    return this.formGroup.get('proId').hasError('required') ? 'El ID del producto es requerido' :
+      this.formGroup.get('proId').hasError('minlength') ? 'Mínimo 5 caracteres' :
+        this.formGroup.get('proId').hasError('maxlength') ? 'Máximo 100 caracteres' : '';
+  }
+
+  getErrorName() {
+    return this.formGroup.get('name').hasError('required') ? 'El nombre es requerido' :
+      this.formGroup.get('name').hasError('minlength') ? 'Mínimo 4 caracteres' :
+        this.formGroup.get('name').hasError('maxlength') ? 'Máximo 255 caracteres' : '';
+  }
+
+  getErrorPrice() {
+    return this.formGroup.get('price').hasError('required') ? 'El precio es requerido' : '';
+  }
+
+  checkPrice(control) {
+    let price = control.value;
+    console.log(price);
+    return { 'requirements': true };
   }
 
 }

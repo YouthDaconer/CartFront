@@ -1,1 +1,3 @@
-<app-tarjeta-producto [producto]="producto" *ngFor="let producto of productos"></app-tarjeta-producto>
+<mat-grid-list cols="3" *ngFor="let producto of productos">
+    <app-tarjeta-producto [producto]="producto"></app-tarjeta-producto>
+</mat-grid-list>
