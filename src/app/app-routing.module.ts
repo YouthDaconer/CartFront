@@ -22,25 +22,73 @@ import { ResetPasswordComponent } from './component/reset-password/reset-passwor
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 
 const routes: Routes = [
-  { path: 'customer-list', component: CustomerListComponent, canActivate: [AuthGuard] },
-  { path: 'customer-save', component: CustomerSaveComponent, canActivate: [AuthGuard] },
-  { path: 'customer-edit/:email', component: CustomerEditComponent, canActivate: [AuthGuard] },
-  { path: 'product-list', component: ProductListComponent, canActivate: [AuthGuard] },
-  { path: 'payment-method-list', component: PaymentMethodListComponent, canActivate: [AuthGuard] },
-  { path: 'shopping-cart-list', component: ShoppingCartListComponent, canActivate: [AuthGuard] },
-  { path: 'shopping-product-list', component: ShoppingProductListComponent, canActivate: [AuthGuard] },
-  { path: 'product-save', component: ProductSaveComponent, canActivate: [AuthGuard] },
-  { path: 'product-edit/:proId', component: ProductEditComponent, canActivate: [AuthGuard] },
-  { path: 'payment-method-save', component: PaymentMethodSaveComponent, canActivate: [AuthGuard] },
-  { path: 'payment-method-edit/:payId', component: PaymentMethodEditComponent, canActivate: [AuthGuard] },
-  { path: 'tienda', component: TiendaComponent, canActivate: [AuthGuard] },
-  { path: 'producto/detalle/:proId', component: DetalleDeProductoComponent, canActivate: [AuthGuard] },
-  { path: 'reset-password', component: ResetPasswordComponent },
+  {
+    path: 'customer-list', component: CustomerListComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'customer-edit/:email', component: CustomerEditComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'product-list', component: ProductListComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'payment-method-list', component: PaymentMethodListComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'shopping-cart-list', component: ShoppingCartListComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'shopping-product-list', component: ShoppingProductListComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'product-save', component: ProductSaveComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'product-edit/:proId', component: ProductEditComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'payment-method-save', component: PaymentMethodSaveComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'payment-method-edit/:payId', component: PaymentMethodEditComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'tienda', component: TiendaComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'producto/detalle/:proId', component: DetalleDeProductoComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
   {
     path: 'home', component: HomeComponent,
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }
   },
+  { path: 'customer-save', component: CustomerSaveComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'login', component: LoginComponent },
   { path: '', component: LoginComponent }
 ];

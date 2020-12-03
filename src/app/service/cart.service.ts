@@ -19,9 +19,9 @@ export class CartService {
 
   constructor(public httpClient: HttpClient) { }
 
-  public createCart(): Observable<any> {
+  public createCart(email: string): Observable<any> {
     let headers = this.createTokenHeader();
-    return this.httpClient.post(this.url + 'createCart', {}, { headers: headers });
+    return this.httpClient.post(this.url + 'createCart/' + email, {}, { headers: headers });
   }
 
   public addProduct(carId: number, proId: string, quantity: number): Observable<any> {
@@ -42,6 +42,11 @@ export class CartService {
   public findShoppingProductByShoppingCart(carId: number): Observable<any> {
     let headers = this.createTokenHeader();
     return this.httpClient.get(this.url + 'findShoppingProductByShoppingCart/' + carId, { headers: headers });
+  }
+
+  public getCurrentUserCart(email: string): Observable<any> {
+    let headers = this.createTokenHeader();
+    return this.httpClient.get(this.url + 'getCurrentUserCart/' + email, { headers: headers });
   }
 
 }

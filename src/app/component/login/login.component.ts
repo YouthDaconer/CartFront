@@ -7,6 +7,10 @@ import { Customer } from 'src/app/domain/customer';
 import { AuthCartService } from 'src/app/service/auth-cart.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CustomerService } from 'src/app/service/customer.service';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { CartService } from 'src/app/service/cart.service';
+import { DataSharingService } from "src/app/service/data-sharing.service";
 
 @Component({
   selector: 'app-login',
@@ -32,11 +36,15 @@ export class LoginComponent implements OnInit {
     private router: Router,
     public authCartService: AuthCartService,
     public authService: AuthService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public customerService: CustomerService,
+    public angularFireAuth: AngularFireAuth,
+    private cartService: CartService,
+    private dataSharingService: DataSharingService
   ) { }
 
   ngOnInit(): void {
-    this.customer = new Customer("", "", "", "", "", "");
+    this.customer = new Customer("", "", "", "", "", "", 0);
     this.createFormLogin();
     this.createFormRegistro();
     this.user = new User("admin", "password");
@@ -50,11 +58,14 @@ export class LoginComponent implements OnInit {
     if (this.formGroupLogin.status === "VALID") {
       this.authCartService.login(post.email, post.password)
         .then(() => {
+          // Login de usuario
           this.authService.loginUser(this.user).subscribe(data => {
-            localStorage.setItem("usuario", JSON.stringify(this.user));
             localStorage.setItem("token", data.token);
-          }, err => {
-            console.log(err);
+            localStorage.setItem("usuario", JSON.stringify(this.user));
+            // Comunicación entre componentes
+            this.dataSharingService.changeMessage("car_check");
+          }, error => {
+            console.error(error);
           });
 
           this.router.navigate(['/home']);
@@ -70,6 +81,9 @@ export class LoginComponent implements OnInit {
             case "auth/too-many-requests":
               this.openSnackBar("El acceso a esta cuenta ha sido temporalmente desactivado debido a muchos intentos fallidos de ingreso. Puedes restaurarlo inmediatamente restableciendo tu contraseña o puedes intentarlo de nuevo más tarde", "Ok");
               break;
+            case "auth/user-disabled":
+              this.openSnackBar("El usuario está inhabilitado del sistema", "Ok");
+              break;
             default:
               this.openSnackBar("Estado desconocido", "Ok");
               break;
@@ -84,15 +98,33 @@ export class LoginComponent implements OnInit {
 
       this.authCartService.createUser(this.customer, this.postRegistro.password)
         .then(() => {
-          this.authCartService.sendEmailVerification();
-          formDirective.resetForm();
-          this.formGroupRegistro.reset();
-          this.selectTab();
-          this.openSnackBar("Usuario creado con éxito", "Ok");
-          this.router.navigate(['/login']);
+          this.angularFireAuth.authState.subscribe(user => {
+            this.customer.token = user.uid;
+            this.customer.tipo = 0;
+            this.customer.enable = 'Y';
+            this.authCartService.sendEmailVerification();
+            this.customerService.save(this.customer).subscribe(ok => {
+              formDirective.resetForm();
+              this.formGroupRegistro.reset();
+              this.selectTab();
+              this.openSnackBar("Usuario creado con éxito", "Ok");
+              this.router.navigate(['/login']);
+            }, err => {
+              console.log(err);
+              this.openSnackBar("No se pudieron guardar los datos del cliente", "Ok");
+            });
+          });
         })
         .catch(e => {
-          console.error(e.message);
+          switch (e.code) {
+            case "auth/email-already-in-use":
+              this.openSnackBar("El email ingresado ya está en uso", "Ok");
+              break;
+            default:
+              console.error(e);
+              this.openSnackBar("Estado desconocido", "Ok");
+              break;
+          }
         });
     }
   }
@@ -109,25 +141,13 @@ export class LoginComponent implements OnInit {
   createFormRegistro() {
     let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     this.formGroupRegistro = this.formBuilder.group({
-      'email': [null, [Validators.required, Validators.pattern(emailregex)], this.checkInUseEmail],
+      'email': [null, [Validators.required, Validators.pattern(emailregex)]],
       'password': [null, [Validators.required, Validators.minLength(6), this.checkPassword]],
       'name': [null, [Validators.required, Validators.minLength(4), Validators.maxLength(255)]],
       'address': [null, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
-      'phone': [null, [Validators.required, Validators.minLength(6), Validators.maxLength(255)]],
+      'phone': [null, [Validators.required, Validators.minLength(10), Validators.maxLength(255)]],
       'validate': ''
     });
-  }
-
-  checkInUseEmail(control) {
-    // mimic http database access
-    let db = ['tony@gmail.com'];
-    return new Observable(observer => {
-      setTimeout(() => {
-        let result = (db.indexOf(control.value) !== -1) ? { 'alreadyInUse': true } : null;
-        observer.next(result);
-        observer.complete();
-      }, 4000)
-    })
   }
 
   checkPassword(control) {

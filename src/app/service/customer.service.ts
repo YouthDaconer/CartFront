@@ -30,8 +30,7 @@ export class CustomerService {
   }
 
   public save(customer: Customer): Observable<any> {
-    let headers = this.createTokenHeader();
-    return this.httpClient.post(this.url + 'save', customer, { headers: headers });
+    return this.httpClient.post(this.url + 'save', customer);
   }
 
   public update(customer: Customer): Observable<any> {

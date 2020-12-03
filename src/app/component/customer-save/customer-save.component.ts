@@ -22,7 +22,7 @@ export class CustomerSaveComponent implements OnInit {
     public enableService: EnableService) { }
 
   ngOnInit(): void {
-    this.customer = new Customer("", "", "Y", "", "", "");
+    this.customer = new Customer("", "", "Y", "", "", "", 0);
     this.findAllEnable();
   }
 

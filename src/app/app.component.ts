@@ -22,24 +22,50 @@ export class AppComponent implements OnInit {
 
     // Comunicación entre componentes
     this.dataSharingService.currentMessage.subscribe(mensaje => {
-      if (mensaje == "car_updated") {
-        this.refrescarCarrito();
+      switch (mensaje) {
+        case "car_updated":
+          this.refrescarCarrito();
+          break;
+        case "car_check":
+          this.checkCurrentUserCart();
+          break;
+        default:
+          break;
       }
     })
   }
 
   public refrescarCarrito() {
-    this.cartService.findShoppingProductByShoppingCart(4).subscribe(data => {
+    this.cartService.findShoppingProductByShoppingCart(+localStorage.getItem("cartActive")).subscribe(data => {
       this.shoppingProducts = data;
     }, error => {
       console.error(error);
     });
   }
 
-  ngOnInit(): void {
+  public checkCurrentUserCart(): void {
     if (this.isAuth()) {
-      this.refrescarCarrito();
+      let emailLogged = JSON.parse(localStorage.getItem("user")).email;
+      this.cartService.getCurrentUserCart(emailLogged).subscribe(data => {
+        if (data === null) {
+          // Crea el carrito de compras vacio
+          this.cartService.createCart(emailLogged).subscribe(data => {
+            localStorage.setItem("cartActive", data.carId);
+          }, error => {
+            console.error(error);
+          });
+        } else {
+          localStorage.setItem("cartActive", data.carId);
+          this.refrescarCarrito();
+        }
+      }, error => {
+        console.error(error);
+      });
     }
+  }
+
+  ngOnInit(): void {
+    this.checkCurrentUserCart();
   }
 
   public total() {
@@ -70,7 +96,11 @@ export class AppComponent implements OnInit {
   }
 
   public isAuth(): boolean {
-    return !!localStorage.getItem('usuario');
+    let bandera: boolean = false;
+    if (!!localStorage.getItem('user') && !!localStorage.getItem('usuario')) {
+      bandera = true;
+    }
+    return bandera;
   }
 
   public toggleMenu(menu: any): void {

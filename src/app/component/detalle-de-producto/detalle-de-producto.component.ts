@@ -46,7 +46,7 @@ export class DetalleDeProductoComponent implements OnInit {
   public quitarDelCarrito() {
     const { proId } = this.producto;
 
-    this.cartService.removeProduct(4, proId).subscribe(data => {
+    this.cartService.removeProduct(+localStorage.getItem("cartActive"), proId).subscribe(data => {
       const respuesta = data;
       this.refrescarEstado();
       this.openSnackBar("Producto eliminado con éxito", "Ok");
@@ -59,7 +59,7 @@ export class DetalleDeProductoComponent implements OnInit {
     const { proId } = this.producto;
 
     if (this.quantity > 0) {
-      this.cartService.addProduct(4, proId, this.quantity).subscribe(data => {
+      this.cartService.addProduct(+localStorage.getItem("cartActive"), proId, this.quantity).subscribe(data => {
         const respuesta = data;
         this.refrescarEstado();
         this.openSnackBar("Producto agregado con éxito", "Ok");
@@ -76,7 +76,7 @@ export class DetalleDeProductoComponent implements OnInit {
   refrescarEstado() {
     const { proId } = this.producto;
 
-    this.cartService.existProductInCart(4, proId).subscribe(data => {
+    this.cartService.existProductInCart(+localStorage.getItem("cartActive"), proId).subscribe(data => {
       this.shoppingProductExistente = data;
     }, error => {
       console.error(error);
@@ -96,7 +96,7 @@ export class DetalleDeProductoComponent implements OnInit {
       if (this.fotos.length > 0) {
         this.seleccionarImagen(0);
       }
-      
+
       this.refrescarEstado();
     }, error => {
       console.error(error);

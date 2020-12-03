@@ -17,3 +17,8 @@ th.mat-header-cell {
 .success-icon{
   color: #00c853;
 }
+
+.mat-buttonInfo {
+  background-color: #33b5e5;
+  color: #ffffff;
+}

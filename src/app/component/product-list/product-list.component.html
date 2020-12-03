@@ -1,12 +1,15 @@
 <br />
 <h1>Productos</h1>
 <br />
-<button (click)="navegarAFormulario()" mat-button color="accent" mat-raised-button>Agregar producto</button>
+<button (click)="navegarAFormulario()" mat-button class="mat-buttonInfo" mat-raised-button>
+  <mat-icon>add</mat-icon>
+  Agregar producto
+</button>
 <br />
 <br />
 <div fxLayout fxLayoutAlign="center center">
   <mat-form-field fxFlex="40%">
-    <input matInput type="text" (keyup)="filtrar($event.target.value)" placeholder="Filtrar">
+    <input matInput type="text" (keyup)="filtrar($event.target.value)" placeholder="Escribe aquí tu búsqueda">
   </mat-form-field>
 </div>
 <br />
