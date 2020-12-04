@@ -1,0 +1,9 @@
+table {
+  width: 100%;
+}
+img{
+  max-width: 500px;
+}
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: #fff; 
+}

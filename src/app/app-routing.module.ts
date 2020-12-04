@@ -18,6 +18,7 @@ import { AuthGuard } from './guard/auth.guard';
 import { HomeComponent } from './component/home/home.component';
 import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { ResetPasswordComponent } from './component/reset-password/reset-password.component';
+import { TerminarCompraComponent } from './component/terminar-compra/terminar-compra.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 
@@ -74,6 +75,11 @@ const routes: Routes = [
   },
   {
     path: 'tienda', component: TiendaComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'terminar-compra', component: TerminarCompraComponent,
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }
   },

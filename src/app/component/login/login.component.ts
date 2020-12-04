@@ -184,13 +184,13 @@ export class LoginComponent implements OnInit {
   }
 
   getErrorAddress() {
-    return this.formGroupRegistro.get('address').hasError('required') ? 'La dirección es requerido' :
+    return this.formGroupRegistro.get('address').hasError('required') ? 'La dirección es requerida' :
       this.formGroupRegistro.get('address').hasError('minlength') ? 'Mínimo 3 caracteres' :
         this.formGroupRegistro.get('address').hasError('maxlength') ? 'Máximo 255 caracteres' : '';
   }
 
   getErrorPhone() {
-    return this.formGroupRegistro.get('phone').hasError('required') ? 'La dirección es requerido' :
+    return this.formGroupRegistro.get('phone').hasError('required') ? 'El teléfono es requerido' :
       this.formGroupRegistro.get('phone').hasError('minlength') ? 'Mínimo 10 caracteres' :
         this.formGroupRegistro.get('phone').hasError('maxlength') ? 'Máximo 255 caracteres' : '';
   }

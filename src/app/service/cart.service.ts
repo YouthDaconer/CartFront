@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Customer } from '../domain/customer';
 import { HttpService } from "./http.service";
 
 @Injectable({
@@ -32,6 +33,21 @@ export class CartService {
   public removeProduct(carId: number, proId: string): Observable<any> {
     let headers = this.createTokenHeader();
     return this.httpClient.post(this.url + 'removeProduct/' + carId + '/' + proId, {}, { headers: headers });
+  }
+
+  public removeShoppingProduct(carId: number, proId: string): Observable<any> {
+    let headers = this.createTokenHeader();
+    return this.httpClient.post(this.url + 'removeShoppingProduct/' + carId + '/' + proId, {}, { headers: headers });
+  }
+
+  public finishPurchase(carId: number, payId: number): Observable<any> {
+    let headers = this.createTokenHeader();
+    return this.httpClient.post(this.url + 'finishPurchase/' + carId + '/' + payId, {}, { headers: headers });
+  }
+
+  public clearCart(carId: number): Observable<any> {
+    let headers = this.createTokenHeader();
+    return this.httpClient.post(this.url + 'clearCart/' + carId, {}, { headers: headers });
   }
 
   public existProductInCart(carId: number, proId: string): Observable<any> {

@@ -4,6 +4,7 @@ import { CartService } from './service/cart.service';
 import { DataSharingService } from "./service/data-sharing.service";
 import { AuthCartService } from 'src/app/service/auth-cart.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,8 @@ export class AppComponent implements OnInit {
     private dataSharingService: DataSharingService,
     public authCartService: AuthCartService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private _snackBar: MatSnackBar) {
 
     // Comunicación entre componentes
     this.dataSharingService.currentMessage.subscribe(mensaje => {
@@ -43,14 +45,15 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public checkCurrentUserCart(): void {
+  public checkCurrentUserCart() {
     if (this.isAuth()) {
       let emailLogged = JSON.parse(localStorage.getItem("user")).email;
       this.cartService.getCurrentUserCart(emailLogged).subscribe(data => {
         if (data === null) {
           // Crea el carrito de compras vacio
-          this.cartService.createCart(emailLogged).subscribe(data => {
-            localStorage.setItem("cartActive", data.carId);
+          this.cartService.createCart(emailLogged).subscribe(dataNew => {
+            localStorage.setItem("cartActive", dataNew.carId);
+            this.refrescarCarrito();
           }, error => {
             console.error(error);
           });
@@ -84,8 +87,8 @@ export class AppComponent implements OnInit {
     return suma;
   }
 
-  public singOut(): void {
-    this.authCartService.singOut()
+  public signOut(): void {
+    this.authCartService.signOut()
       .then(() => {
         localStorage.clear();
         this.router.navigate(['/login']);
@@ -105,5 +108,30 @@ export class AppComponent implements OnInit {
 
   public toggleMenu(menu: any): void {
     menu.toggle();
+  }
+
+  public detalles(proId: string) {
+    this.router.navigate(["/producto/detalle", proId])
+      .then(() => {
+        window.location.reload();
+      });
+  }
+
+  public clearCart() {
+    this.cartService.clearCart(+localStorage.getItem("cartActive")).subscribe(data => {
+      this.router.navigate(["/tienda"])
+        .then(() => {
+          this.refrescarCarrito();
+          this.openSnackBar("Carrito vaciado con éxito", "Ok");
+        });
+    }, error => {
+      console.error(error);
+    });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 }

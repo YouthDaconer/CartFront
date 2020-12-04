@@ -58,6 +58,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import { HomeComponent } from './component/home/home.component';
 import { ResetPasswordComponent } from './component/reset-password/reset-password.component';
+import { TerminarCompraComponent } from './component/terminar-compra/terminar-compra.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { ResetPasswordComponent } from './component/reset-password/reset-passwor
     TiendaComponent,
     DetalleDeProductoComponent,
     HomeComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    TerminarCompraComponent
   ],
   imports: [
     BrowserModule,

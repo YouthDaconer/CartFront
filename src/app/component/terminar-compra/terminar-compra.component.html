@@ -1,0 +1,109 @@
+<mat-horizontal-stepper #stepper linear>
+  <mat-step label="Resumen de la compra">
+
+    <table *ngIf="shoppingProducts.length > 0" mat-table [dataSource]="shoppingProducts">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Producto</mat-header-cell>
+        <mat-cell *matCellDef="let shoppingProduct"> {{shoppingProduct.name}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef>Precio</mat-header-cell>
+        <mat-cell *matCellDef="let shoppingProduct"> {{shoppingProduct.price | currency}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell *matHeaderCellDef>Cantidad</mat-header-cell>
+        <mat-cell *matCellDef="let shoppingProduct"> {{shoppingProduct.quantity}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="image">
+        <mat-header-cell *matHeaderCellDef>Imagen</mat-header-cell>
+        <mat-cell *matCellDef="let shoppingProduct">
+          <img src="{{ imagenPrincipal(shoppingProduct.image) }}" fallimg="default" class="img-fluid " width="50px"
+            height="50px">
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="total">
+        <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+        <mat-cell *matCellDef="let shoppingProduct"> {{shoppingProduct.total | currency}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="quitar">
+        <mat-header-cell *matHeaderCellDef>Quitar</mat-header-cell>
+        <mat-cell *matCellDef="let shoppingProduct">
+          <button (click)="removeShoppingProduct(shoppingProduct)" mat-icon-button color="warn">
+            <mat-icon>
+              delete
+            </mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
+    </table>
+    <br />
+    <h2>Total: {{total() | currency}}</h2>
+    <button matStepperNext mat-raised-button color="primary">Continuar
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </mat-step>
+  <br />
+  <mat-step label="Pago y envío">
+    <form *ngIf="formGroupCheckout != null" #formCheckout="ngForm" [formGroup]="formGroupCheckout"
+      (ngSubmit)="checkout(formGroupCheckout.value, stepper);">
+      <mat-form-field style="margin-right: 50px;">
+        <input matInput value="{{customer.name}}" type="text" disabled placeholder="Nombre" #name>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Método de pago</mat-label>
+        <mat-select #payId formControlName="payId" required>
+          <mat-option *ngFor="let paymentMethod of paymentMethods" [value]="paymentMethod.payId">
+            {{paymentMethod.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="!formGroupCheckout.controls['payId'].valid && formGroupCheckout.controls['payId'].touched">
+          {{ getErrorPayId() }}
+        </mat-error>
+      </mat-form-field>
+      <p>
+        <mat-form-field>
+          <input matInput value="{{customer.email}}" type="text" disabled placeholder="Email" #email>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+          <input matInput #address type="text" placeholder="Dirección de envío"
+            formControlName="address" required>
+          <mat-error
+            *ngIf="!formGroupCheckout.controls['address'].valid && formGroupCheckout.controls['address'].touched">
+            {{ getErrorAddress() }}
+          </mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+          <input matInput #phone type="text" placeholder="Teléfono" formControlName="phone"
+            required>
+          <mat-error *ngIf="!formGroupCheckout.controls['phone'].valid && formGroupCheckout.controls['phone'].touched">
+            {{ getErrorPhone() }}
+          </mat-error>
+        </mat-form-field>
+      </p>
+      <button (click)="backToResume(stepper)" matStepperPrevious mat-raised-button color="primary">
+        <mat-icon>arrow_back</mat-icon>
+        Volver
+      </button>
+      &nbsp;
+      <button mat-raised-button color="warn">Terminar compra
+        <mat-icon>check</mat-icon>
+      </button>
+    </form>
+  </mat-step>
+  <mat-step label="Gracias por su compra">
+    <div *ngIf="compraTerminada">
+      <h2 class="mat-display-3">¡Gracias por su compra!</h2>
+      <img src="assets/images/order-complete.png" alt="Compra terminada">
+      <p>Su paquete llegará a la dirección especificada en los siguientes días</p>
+    </div>
+    <div *ngIf="!compraTerminada">
+      Por favor, rellene los formularios de los pasos anteriores
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

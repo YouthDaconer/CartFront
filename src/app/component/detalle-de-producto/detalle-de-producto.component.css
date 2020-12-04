@@ -55,3 +55,15 @@ p {
     background-color: #33b5e5;
     color: #ffffff;
 }
+
+.botonEspacio{
+    margin-right: 15px;
+}
+
+.mat-chipQuitar{
+    background-color: #bbbbbb;
+}
+
+.mat-chipNum{
+    background-color: #FFD740;
+}

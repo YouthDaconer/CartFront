@@ -1,31 +1,34 @@
 <div class="contenedor-padre">
   <mat-toolbar *ngIf="isAuth()" class="barra" color="warn">
     <mat-toolbar-row>
-      <button (click)="cajon.toggle()" mat-icon-button>
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span>
+      <img src="/assets/images/logo.png" width="50" style="margin-right: 25px;" alt="image">
+      <span style="font-size: 30px;">
         Mi Tienda
       </span>
       <span class="example-fill-remaining-space"></span>
       <div *ngIf="isAuth()">
         <button mat-raised-button [matMenuTriggerFor]="menu">
-          <span style="margin-right: 10px" [matBadge]="numProductos()+''" matBadgeOverlap="false"
-            matBadgePosition="below after">Carrito de compras</span>
+          <span [matBadge]="numProductos()+''" matBadgeOverlap="false"
+            matBadgePosition="above after">Carrito de compras</span>
         </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item *ngFor="let shp of shoppingProducts;">{{shp.name}} {{shp.price | currency}} -
+        <mat-menu #menu="matMenu" [overlapTrigger]="false">
+          <button *ngFor="let shp of shoppingProducts;" mat-menu-item style="white-space: normal" (click)="detalles(shp.proId)">{{shp.name}}
+            {{shp.price | currency}} -
             {{ shp.quantity }} Unid.</button>
           <button mat-menu-item>
             <strong>Total: {{total() | currency}}</strong>
           </button>
-          <a *ngIf="numProductos() > 0" mat-menu-item routerLink="/terminar_compra">
+          <a *ngIf="numProductos() > 0" mat-menu-item (click)="clearCart()">
+            <mat-icon>delete</mat-icon>
+            Vaciar carrito
+          </a>
+          <a *ngIf="numProductos() > 0" mat-menu-item routerLink="/terminar-compra">
             <mat-icon>shopping_cart</mat-icon>
             Terminar compra
           </a>
         </mat-menu>
       </div>
-      <button style="margin-left: 10px" mat-raised-button color="primary" (click)="singOut()">
+      <button style="margin-left: 10px" mat-raised-button color="primary" (click)="signOut()">
         Cerrar Sesión
       </button>
     </mat-toolbar-row>

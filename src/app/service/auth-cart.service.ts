@@ -25,7 +25,7 @@ export class AuthCartService {
     return this.angularFireAuth.signInWithEmailAndPassword(email, password);
   }
 
-  public singOut() {
+  public signOut() {
     return this.angularFireAuth.signOut();
   }
 
