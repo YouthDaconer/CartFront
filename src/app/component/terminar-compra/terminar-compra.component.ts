@@ -26,7 +26,7 @@ export class TerminarCompraComponent implements OnInit {
     private formBuilder: FormBuilder) {
   }
 
-  public compraTerminada = false;
+  public compraTerminada: boolean = false;
   public shoppingProducts = [];
   public paymentMethods = [];
   public columnas = ['name', 'price', 'quantity', 'image', 'total', 'quitar'];
@@ -46,6 +46,8 @@ export class TerminarCompraComponent implements OnInit {
     this.cartService.findShoppingProductByShoppingCart(+localStorage.getItem("cartActive")).subscribe(data => {
       if (data.length == 0) {
         this.router.navigate([this.activatedRoute.snapshot.queryParams.returnUrl || '/tienda']);
+      } else {
+        this.shoppingProducts = data;
       }
     }, error => {
       console.error(error);
@@ -117,8 +119,7 @@ export class TerminarCompraComponent implements OnInit {
 
   public removeShoppingProduct(product: Product) {
     this.cartService.removeShoppingProduct(+localStorage.getItem("cartActive"), product.proId).subscribe(data => {
-      this.getShoppingProducts();
-
+      this.checkShoppingProducts();
       // Comunicación entre componentes
       this.dataSharingService.changeMessage("car_updated");
       this.openSnackBar("Productos eliminados con éxito", "Ok");

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Product } from 'src/app/domain/product';
 import { Enable } from 'src/app/domain/enable';
 import { ProductService } from 'src/app/service/product.service';
@@ -14,9 +14,10 @@ import { Router } from "@angular/router";
 })
 export class ProductSaveComponent implements OnInit {
 
+  @ViewChild('price') price: ElementRef;
   public product: Product;
   public enables: Enable[];
-
+  public flag: boolean = false;
   public cargando = false;
 
   formGroup: FormGroup;
@@ -40,27 +41,31 @@ export class ProductSaveComponent implements OnInit {
   }
 
   public save(): void {
-    this.cargando = true;
-    this.product.enable = 'Y';
-    this.productService.save(this.product).subscribe(ok => {
-      this.snackBar.open("Producto guardado", "", {
-        duration: 1500,
-        horizontalPosition: "start",
-        verticalPosition: "top",
+    let flag: boolean = false;
+    flag = this.checkPrice();
+    if (this.formGroup.status === "VALID" && flag) {
+      this.cargando = true;
+      this.product.enable = 'Y';
+      this.productService.save(this.product).subscribe(ok => {
+        this.snackBar.open("Producto guardado", "", {
+          duration: 1500,
+          horizontalPosition: "start",
+          verticalPosition: "top",
+        });
+        this.cargando = false;
+        this.router.navigate(['/product-list']);
+      }, err => {
+        console.log(err);
       });
-      this.cargando = false;
-      this.router.navigate(['/product-list']);
-    }, err => {
-      console.log(err);
-    });
+    }
   }
 
   createForm() {
     this.formGroup = this.formBuilder.group({
-      'detail': [null, [Validators.required, Validators.minLength(5), Validators.minLength(3), Validators.maxLength(255)]],
+      'detail': [null, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]],
       'proId': [null, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
       'name': [null, [Validators.required, Validators.minLength(4), Validators.maxLength(255)]],
-      'price': [null, [Validators.required, this.checkPrice]],
+      'price': [null, [Validators.required]],
       'image': [null, [Validators.required]],
       'validate': ''
     });
@@ -82,14 +87,31 @@ export class ProductSaveComponent implements OnInit {
         this.formGroup.get('name').hasError('maxlength') ? 'Máximo 255 caracteres' : '';
   }
 
+  getErrorDetail() {
+    return this.formGroup.get('detail').hasError('required') ? 'El detalle es requerido' :
+      this.formGroup.get('detail').hasError('minlength') ? 'Mínimo 5 caracteres' :
+        this.formGroup.get('detail').hasError('maxlength') ? 'Máximo 255 caracteres' : '';
+  }
+
   getErrorPrice() {
     return this.formGroup.get('price').hasError('required') ? 'El precio es requerido' : '';
   }
 
-  checkPrice(control) {
-    let price = control.value;
-    console.log(price);
-    return { 'requirements': true };
+  getErrorImage() {
+    return this.formGroup.get('name').hasError('required') ? 'La imagen es requerida' : '';
+  }
+
+  checkPrice(): boolean {
+    if (this.price.nativeElement.value  === "COP$ 0,00") {
+      this.snackBar.open("Por favor indique el precio del producto", "", {
+        duration: 1500,
+        horizontalPosition: "start",
+        verticalPosition: "top",
+      });
+      this.price.nativeElement.focus();
+      return false
+    }
+    return true;
   }
 
 }

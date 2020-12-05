@@ -59,6 +59,8 @@ import { environment } from 'src/environments/environment';
 import { HomeComponent } from './component/home/home.component';
 import { ResetPasswordComponent } from './component/reset-password/reset-password.component';
 import { TerminarCompraComponent } from './component/terminar-compra/terminar-compra.component';
+import { VentasComponent } from './component/ventas/ventas.component';
+import { DetalleDeVentaComponent } from './component/detalle-de-venta/detalle-de-venta.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +83,9 @@ import { TerminarCompraComponent } from './component/terminar-compra/terminar-co
     DetalleDeProductoComponent,
     HomeComponent,
     ResetPasswordComponent,
-    TerminarCompraComponent
+    TerminarCompraComponent,
+    VentasComponent,
+    DetalleDeVentaComponent
   ],
   imports: [
     BrowserModule,

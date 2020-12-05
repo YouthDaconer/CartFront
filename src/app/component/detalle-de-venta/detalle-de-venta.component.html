@@ -1,0 +1,43 @@
+<mat-card>
+  <h2 *ngIf="shoppingCart != null">
+    <mat-icon>person</mat-icon>
+    {{shoppingCart.name}}
+  </h2>
+  <h2 *ngIf="shoppingCart != null">
+    <mat-icon>local_shipping</mat-icon>
+    {{shoppingCart.address}}
+  </h2>
+  <h2 *ngIf="shoppingCart != null">
+    <mat-icon>receipt</mat-icon>
+    {{shoppingCart.items}} Artículos
+  </h2>
+  <h2 *ngIf="shoppingCart != null">
+    <mat-icon>monetization_on</mat-icon>
+    {{shoppingCart.total | currency}}
+  </h2>
+  <table *ngIf="shoppingProducts.length>0" mat-table [dataSource]="shoppingProducts">
+    <ng-container matColumnDef="nombre">
+      <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="imagen">
+      <mat-header-cell *matHeaderCellDef>Imagen</mat-header-cell>
+      <mat-cell *matCellDef="let shoppingProduct">
+        <img src="{{ imagenPrincipal(shoppingProduct.image) }}" fallimg="default" class="img-fluid " width="50px"
+          height="50px">
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="cantidad">
+      <mat-header-cell *matHeaderCellDef>Cantidad</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.quantity}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="precio">
+      <mat-header-cell *matHeaderCellDef>Precio</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.total | currency}}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
+  </table>
+  <br>
+  <a routerLink="/ventas" mat-raised-button color="accent">Volver</a>
+</mat-card>

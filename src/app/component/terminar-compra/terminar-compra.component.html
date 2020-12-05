@@ -28,7 +28,7 @@
       <ng-container matColumnDef="quitar">
         <mat-header-cell *matHeaderCellDef>Quitar</mat-header-cell>
         <mat-cell *matCellDef="let shoppingProduct">
-          <button (click)="removeShoppingProduct(shoppingProduct)" mat-icon-button color="warn">
+          <button (click)="removeShoppingProduct(shoppingProduct)" mat-icon-button color="warn" [disabled]="this.compraTerminada ? '' : null">
             <mat-icon>
               delete
             </mat-icon>
@@ -54,7 +54,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Método de pago</mat-label>
         <mat-select #payId formControlName="payId" required>
-          <mat-option *ngFor="let paymentMethod of paymentMethods" [value]="paymentMethod.payId">
+          <mat-option *ngFor="let paymentMethod of paymentMethods" [value]="paymentMethod.payId" [disabled]="this.compraTerminada ? '' : null">
             {{paymentMethod.name}}
           </mat-option>
         </mat-select>
@@ -69,8 +69,7 @@
       </p>
       <p>
         <mat-form-field>
-          <input matInput #address type="text" placeholder="Dirección de envío"
-            formControlName="address" required>
+          <input matInput #address type="text" placeholder="Dirección de envío" formControlName="address" required [attr.disabled]="this.compraTerminada ? '' : null">
           <mat-error
             *ngIf="!formGroupCheckout.controls['address'].valid && formGroupCheckout.controls['address'].touched">
             {{ getErrorAddress() }}
@@ -79,8 +78,7 @@
       </p>
       <p>
         <mat-form-field>
-          <input matInput #phone type="text" placeholder="Teléfono" formControlName="phone"
-            required>
+          <input matInput #phone type="text" placeholder="Teléfono" formControlName="phone" required [attr.disabled]="this.compraTerminada ? '' : null">
           <mat-error *ngIf="!formGroupCheckout.controls['phone'].valid && formGroupCheckout.controls['phone'].touched">
             {{ getErrorPhone() }}
           </mat-error>
@@ -91,7 +89,10 @@
         Volver
       </button>
       &nbsp;
-      <button mat-raised-button color="warn">Terminar compra
+      <button matStepperNext mat-raised-button color="primary" *ngIf="this.compraTerminada">Continuar
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+      <button mat-raised-button color="warn" *ngIf="!this.compraTerminada">Terminar compra
         <mat-icon>check</mat-icon>
       </button>
     </form>
@@ -99,7 +100,7 @@
   <mat-step label="Gracias por su compra">
     <div *ngIf="compraTerminada">
       <h2 class="mat-display-3">¡Gracias por su compra!</h2>
-      <img src="assets/images/order-complete.png" alt="Compra terminada">
+      <img src="assets/images/purchase.jpg" alt="Compra terminada">
       <p>Su paquete llegará a la dirección especificada en los siguientes días</p>
     </div>
     <div *ngIf="!compraTerminada">

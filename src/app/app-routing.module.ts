@@ -19,6 +19,8 @@ import { HomeComponent } from './component/home/home.component';
 import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { ResetPasswordComponent } from './component/reset-password/reset-password.component';
 import { TerminarCompraComponent } from './component/terminar-compra/terminar-compra.component';
+import { VentasComponent } from './component/ventas/ventas.component';
+import { DetalleDeVentaComponent } from "./component/detalle-de-venta/detalle-de-venta.component";
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 
@@ -90,6 +92,16 @@ const routes: Routes = [
   },
   {
     path: 'home', component: HomeComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'ventas', component: VentasComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'detalle-venta/:id', component: DetalleDeVentaComponent,
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }
   },

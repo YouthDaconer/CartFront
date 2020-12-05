@@ -15,7 +15,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ProductListComponent implements OnInit {
 
   public titulo: string = 'Lista de Productos';
-  public products: Product[];
   public columnas = ['name', 'detail', 'price', 'update', 'status'];
   public dataSource = new MatTableDataSource<Product>();
 

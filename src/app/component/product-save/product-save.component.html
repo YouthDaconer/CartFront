@@ -4,7 +4,7 @@
             <h1>Agregar producto</h1>
 
             <mat-form-field class="form-element">
-                <input matInput [(ngModel)]="product.proId" type="text" placeholder="Producto ID"
+                <input matInput #proId type="text" [(ngModel)]="product.proId" placeholder="Producto ID"
                     formControlName="proId">
                 <mat-error *ngIf="!formGroup.controls['proId'].valid && formGroup.controls['proId'].touched">
                     {{ getErrorProId() }}
@@ -12,7 +12,7 @@
             </mat-form-field>
 
             <mat-form-field class="form-element">
-                <input matInput [(ngModel)]="product.name" type="text" placeholder="Nombre"
+                <input matInput #name type="text" [(ngModel)]="product.name" placeholder="Nombre"
                     formControlName="name">
                 <mat-error *ngIf="!formGroup.controls['name'].valid && formGroup.controls['name'].touched">
                     {{ getErrorName() }}
@@ -20,22 +20,28 @@
             </mat-form-field>
 
             <mat-form-field class="form-element">
-                <input type="text" currencyMask matInput [(ngModel)]="product.price"
+                <input type="text" currencyMask matInput #price 
                     [options]="{ prefix: 'COP$ ', thousands: '.', decimal: ',', allowNegative: false, align: 'left' }"
-                    placeholder="Precio" formControlName="price" formControlName="name" />
+                    placeholder="Precio" formControlName="price" [(ngModel)]="product.price" />
                 <mat-error *ngIf="!formGroup.controls['price'].valid && formGroup.controls['price'].touched">
                     {{ getErrorPrice() }}
                 </mat-error>
             </mat-form-field>
 
             <mat-form-field class="form-element">
-                <textarea rows="10" matInput [(ngModel)]="product.detail" [ngModelOptions]="{standalone: true}"
-                    placeholder="Descripción"></textarea>
+                <textarea rows="10" matInput #detail 
+                    placeholder="Descripción" formControlName="detail" [(ngModel)]="product.detail"></textarea>
+                    <mat-error *ngIf="!formGroup.controls['detail'].valid && formGroup.controls['detail'].touched">
+                        {{ getErrorDetail() }}
+                    </mat-error>
             </mat-form-field>
 
             <mat-form-field class="form-element">
-                <textarea rows="10" matInput [(ngModel)]="product.image" [ngModelOptions]="{standalone: true}"
-                    placeholder="Imagen"></textarea>
+                <textarea rows="10" matInput #image formControlName="image" 
+                    placeholder="Imagen" [(ngModel)]="product.image"></textarea>
+                    <mat-error *ngIf="!formGroup.controls['image'].valid && formGroup.controls['image'].touched">
+                        {{ getErrorImage() }}
+                    </mat-error>
             </mat-form-field>
 
             <app-loading-button [cargando]="cargando" texto="Guardar" (click)="save()"></app-loading-button>
