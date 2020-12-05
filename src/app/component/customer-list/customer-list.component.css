@@ -1,0 +1,24 @@
+table {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-width: 500px;
+  }
+  
+  th.mat-header-cell {
+    text-align: left;
+    max-width: 300px;
+  }
+  
+  .light-blue-icon{
+    color: #0277bd;
+  }
+  
+  .success-icon{
+    color: #00c853;
+  }
+  
+  .mat-buttonInfo {
+    background-color: #33b5e5;
+    color: #ffffff;
+  }

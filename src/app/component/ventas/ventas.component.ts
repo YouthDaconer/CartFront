@@ -49,7 +49,7 @@ export class VentasComponent implements OnInit {
   }
 
   public verDetalle(id) {
-    this.router.navigate(["/detalle-venta", id])
+    this.router.navigate(["/detalle-venta", id]);
   }
 
 }

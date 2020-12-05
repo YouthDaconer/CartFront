@@ -1,28 +1,58 @@
-<div *ngIf="customer">
+<div class="flexbox-parent" novalidate>
+    <div layout="row" layout-align="center center" style="min-height: 500px">
+        <form [formGroup]="formGroup" (ngSubmit)="update(formGroup.value)" #formCustomer="ngForm" class="form"
+            *ngIf="customer != null">
+            <h1>Datos del cliente</h1>
 
-    <div *ngIf="showMsg">
-        <p *ngFor="let msg of messages">
-            {{ msg }}
-        </p>
+            <mat-form-field class="form-element">
+                <input matInput placeholder="Email" required name="email" #email value="{{customer.email}}" disabled>
+                <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field class="form-element">
+                <input matInput placeholder="Nombre" required name="name" formControlName="name"
+                    [(ngModel)]="customer.name">
+                <mat-icon matSuffix>perm_identity</mat-icon>
+                <mat-error *ngIf="!formGroup.controls['name'].valid && formGroup.controls['name'].touched">
+                    {{ getErrorName() }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="form-element">
+                <input matInput placeholder="Dirección" required name="address" formControlName="address"
+                    [(ngModel)]="customer.address">
+                <mat-icon matSuffix>perm_identity</mat-icon>
+                <mat-error *ngIf="!formGroup.controls['address'].valid && formGroup.controls['address'].touched">
+                    {{ getErrorAddress() }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="form-element">
+                <input matInput placeholder="Teléfono" required name="phone" formControlName="phone"
+                    [(ngModel)]="customer.phone" #phone>
+                <mat-icon matSuffix>perm_identity</mat-icon>
+                <mat-error *ngIf="!formGroup.controls['phone'].valid && formGroup.controls['phone'].touched">
+                    {{ getErrorPhone() }}
+                </mat-error>
+            </mat-form-field>
+
+
+            <mat-form-field *ngIf="jsonUserLoggedIn.uid == customer.token" class="form-element">
+                <input matInput placeholder="Contraseña actual" type="password" name="password" formControlName="password">
+                <mat-icon matSuffix>lock</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="jsonUserLoggedIn.uid == customer.token" class="form-element">
+                <input matInput placeholder="Contraseña nueva" type="password" name="passwordNew" formControlName="passwordNew">
+                <mat-icon matSuffix>lock</mat-icon>
+                <mat-hint>Escribe una contraseña de mínimo 6 caracteres, una letra mayuscula y un número</mat-hint>
+                <mat-error *ngIf="!formGroup.controls['passwordNew'].valid && formGroup.controls['passwordNew'].touched">
+                    {{ getErrorPassword() }}
+                </mat-error>
+            </mat-form-field>
+
+            <app-loading-button [cargando]="cargando" texto="Guardar"></app-loading-button>
+            <a routerLink="/customer-list" mat-raised-button color="primary" style="margin-left: 10px">Volver</a>
+        </form>
     </div>
-
-    <form #customerForm="ngForm">
-        <input readonly type="email" name="email" id="email" #email placeholder="Email"
-            [(ngModel)]="customer.email" /><br />
-        <input type="text" name="name" id="name" #name placeholder="Nombre" [(ngModel)]="customer.name" /><br />
-        <input type="text" name="address" id="address" #address placeholder="Dirección"
-            [(ngModel)]="customer.address" /><br />
-        <input type="text" name="phone" id="phone" #phone placeholder="Teléfono" [(ngModel)]="customer.phone" /><br />
-        <input type="text" name="token" id="token" #token placeholder="Token" [(ngModel)]="customer.token" /><br />
-        <select name="enable" id="enable" #enable [(ngModel)]="customer.enable">
-            <option *ngFor="let enable of enables" [value]="enable.id">
-                {{enable.name }}
-            </option>
-        </select>
-        <br />
-        <button (click)="update()">Edit</button>
-        <button (click)="delete()">Delete</button>
-        <button routerLink="/customer-list">Cancel</button>
-    </form>
-
 </div>

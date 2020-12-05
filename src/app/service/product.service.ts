@@ -24,6 +24,11 @@ export class ProductService {
     return this.httpClient.get(this.url + 'findAll', { headers: headers });
   }
 
+  public findAllEnable(): Observable<any> {
+    let headers = this.createTokenHeader();
+    return this.httpClient.get(this.url + 'findAllEnable', { headers: headers });
+  }
+
   public findById(proId: string): Observable<any> {
     let headers = this.createTokenHeader();
     return this.httpClient.get(this.url + 'findById/' + proId, { headers: headers });

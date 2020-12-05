@@ -12,8 +12,8 @@ export class TiendaComponent implements OnInit {
   constructor(private productService: ProductService) {
   }
 
-  findAll(): void {
-    this.productService.findAll().subscribe(data => {
+  findAllEnable(): void {
+    this.productService.findAllEnable().subscribe(data => {
       this.productos = data;
     }, error => {
       console.error(error);
@@ -21,7 +21,7 @@ export class TiendaComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.findAll();
+    this.findAllEnable();
   }
 
 }

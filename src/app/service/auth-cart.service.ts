@@ -37,4 +37,10 @@ export class AuthCartService {
     return this.angularFireAuth.sendPasswordResetEmail(email);
   }
 
+  public updatePassword(email: string, passwordOld: string, passwordNew: string) {
+    return this.angularFireAuth.signInWithEmailAndPassword(email, passwordOld).then(function (userCredential) {
+      userCredential.user.updatePassword(passwordNew);
+    });
+  }
+
 }

@@ -21,7 +21,7 @@ export class ProductListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private router: Router, public productService: ProductService, private _snackBar: MatSnackBar) { }
+  constructor(private router: Router, public productService: ProductService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.findAll();
@@ -51,6 +51,11 @@ export class ProductListComponent implements OnInit {
     product.enable = 'N';
     this.productService.update(product).subscribe(ok => {
       this.findAll();
+      this.snackBar.open("Producto desactivado correctamente", "", {
+        duration: 1500,
+        horizontalPosition: "center",
+        verticalPosition: "top",
+      });
     }, error => {
       console.log(error);
     });
@@ -63,6 +68,11 @@ export class ProductListComponent implements OnInit {
     product.enable = 'Y';
     this.productService.update(product).subscribe(ok => {
       this.findAll();
+      this.snackBar.open("Producto activado correctamente", "", {
+        duration: 1500,
+        horizontalPosition: "center",
+        verticalPosition: "top",
+      });
     }, error => {
       console.log(error);
     });
@@ -77,7 +87,7 @@ export class ProductListComponent implements OnInit {
   }
 
   public redirectToUpdate = (id: string) => {
-
+    this.router.navigate(["/product-edit", id]);
   }
 
 }

@@ -11,7 +11,6 @@ import { ProductListComponent } from './component/product-list/product-list.comp
 import { PaymentMethodListComponent } from './component/payment-method-list/payment-method-list.component';
 import { ShoppingCartListComponent } from './component/shopping-cart-list/shopping-cart-list.component';
 import { ShoppingProductListComponent } from './component/shopping-product-list/shopping-product-list.component';
-import { CustomerSaveComponent } from './component/customer-save/customer-save.component';
 
 import { FormsModule } from '@angular/forms';
 import { CustomerEditComponent } from './component/customer-edit/customer-edit.component';
@@ -70,7 +69,6 @@ import { DetalleDeVentaComponent } from './component/detalle-de-venta/detalle-de
     PaymentMethodListComponent,
     ShoppingCartListComponent,
     ShoppingProductListComponent,
-    CustomerSaveComponent,
     CustomerEditComponent,
     ProductSaveComponent,
     ProductEditComponent,

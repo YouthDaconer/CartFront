@@ -36,16 +36,22 @@
   <mat-sidenav-container class="contenido">
     <mat-sidenav style="min-width: 300px;" #cajon opened mode="side" *ngIf="isAuth()">
       <mat-nav-list>
+        <br/>
         <p style="margin-left: 4px;">Administrador</p>
         <a mat-list-item routerLink="/product-list">
           <mat-icon color="primary">list_alt</mat-icon>
           Productos
+        </a>
+        <a mat-list-item routerLink="/customer-list">
+          <mat-icon color="primary">supervisor_account</mat-icon>
+          Clientes
         </a>
         <a mat-list-item routerLink="/ventas">
           <mat-icon color="primary">local_shipping</mat-icon>
           Ventas
         </a>
         <mat-divider></mat-divider>
+        <br/>
         <p style="margin-left: 4px;">Cliente</p>
         <a mat-list-item routerLink="/tienda">
           <mat-icon color="primary">store</mat-icon>

@@ -1,1 +1,51 @@
-<p>product-edit works!</p>
+<div class="flexbox-parent" novalidate>
+    <div layout="row" layout-align="center center" style="min-height: 500px">
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form" *ngIf="product != null">
+            <h1>Actualizar producto</h1>
+
+            <mat-form-field class="form-element">
+                <input matInput #proId type="text" [(ngModel)]="product.proId" placeholder="Producto ID"
+                    formControlName="proId">
+                <mat-error *ngIf="!formGroup.controls['proId'].valid && formGroup.controls['proId'].touched">
+                    {{ getErrorProId() }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="form-element">
+                <input matInput #name type="text" [(ngModel)]="product.name" placeholder="Nombre"
+                    formControlName="name">
+                <mat-error *ngIf="!formGroup.controls['name'].valid && formGroup.controls['name'].touched">
+                    {{ getErrorName() }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="form-element">
+                <input type="text" currencyMask matInput #price
+                    [options]="{ prefix: 'COP$ ', thousands: '.', decimal: ',', allowNegative: false, align: 'left' }"
+                    placeholder="Precio" formControlName="price" [(ngModel)]="product.price" />
+                <mat-error *ngIf="!formGroup.controls['price'].valid && formGroup.controls['price'].touched">
+                    {{ getErrorPrice() }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="form-element">
+                <textarea rows="10" matInput #detail placeholder="Descripción" formControlName="detail"
+                    [(ngModel)]="product.detail"></textarea>
+                <mat-error *ngIf="!formGroup.controls['detail'].valid && formGroup.controls['detail'].touched">
+                    {{ getErrorDetail() }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="form-element">
+                <textarea rows="10" matInput #image formControlName="image" placeholder="Imagen"
+                    [(ngModel)]="product.image"></textarea>
+                <mat-error *ngIf="!formGroup.controls['image'].valid && formGroup.controls['image'].touched">
+                    {{ getErrorImage() }}
+                </mat-error>
+            </mat-form-field>
+
+            <app-loading-button [cargando]="cargando" texto="Guardar" (click)="update()"></app-loading-button>
+            <a routerLink="/product-list" mat-raised-button color="primary" style="margin-left: 10px">Volver</a>
+        </form>
+    </div>
+</div>
