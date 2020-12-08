@@ -19,6 +19,7 @@ export class CustomerEditComponent implements OnInit {
   public flag: boolean = false;
   public cargando = false;
   public jsonUserLoggedIn = JSON.parse(localStorage.getItem("user"));
+  public roleLoggedIn = localStorage.getItem("role");
   public isComplete: boolean = false;
   public passwordChanged: boolean = false;
 
@@ -37,9 +38,8 @@ export class CustomerEditComponent implements OnInit {
   async ngOnInit() {
     const email = this.activatedRoute.snapshot.paramMap.get("email");
     let emailLogged = JSON.parse(localStorage.getItem("user")).email;
-    let roleLoggedIn = localStorage.getItem("role");
     if (email !== emailLogged) {
-      if (roleLoggedIn != "0") {
+      if (this.roleLoggedIn != "0") {
         this.router.navigate(["/no-autorizado"]);
       } else {
         this.getCustomer();
@@ -75,7 +75,19 @@ export class CustomerEditComponent implements OnInit {
           this.cargando = false;
           this.passwordChanged = false;
           this.openSnackBar("Cliente actualizado", "Ok");
-          this.router.navigateByUrl("/customer-list");
+
+          const email = this.activatedRoute.snapshot.paramMap.get("email");
+          let emailLogged = JSON.parse(localStorage.getItem("user")).email;
+          let roleLoggedIn = localStorage.getItem("role");
+          if (email === emailLogged) {
+            if (roleLoggedIn == "0") {
+              this.router.navigateByUrl("/customer-list");
+            } else {
+              this.router.navigateByUrl("/home");
+            }
+          } else {
+            this.router.navigateByUrl("/customer-list");
+          }
         } else {
           this.cargando = false;
         }

@@ -90,7 +90,7 @@ export class TerminarCompraComponent implements OnInit {
   }
 
   public async getPaymentMethods() {
-    this.paymentMethodService.findAll().subscribe(data => {
+    this.paymentMethodService.findAllEnable().subscribe(data => {
       this.paymentMethods = data;
     }, error => {
       console.error(error);

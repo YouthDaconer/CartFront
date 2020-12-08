@@ -1,14 +1,47 @@
-<h3>{{titulo}}</h3>
+<br />
+<h1>Métodos de pago</h1>
+<br />
+<button (click)="navegarAFormulario()" mat-button class="mat-buttonInfo" mat-raised-button>
+  <mat-icon>add</mat-icon>
+  Agregar método de pago
+</button>
+<br />
+<br />
+<div fxLayout fxLayoutAlign="center center">
+  <mat-form-field fxFlex="40%">
+    <input matInput type="text" (keyup)="filtrar($event.target.value)" placeholder="Escribe aquí tu búsqueda">
+  </mat-form-field>
+</div>
+<br />
+<table mat-table [dataSource]="dataSource" matSort matSortStart="desc" (matSortChange)="customSort($event)">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+    <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+  </ng-container>
 
-<table border="1">
-  <tr>
-    <td>payId</td>
-    <td>Nombre</td>
-  </tr>
+  <ng-container matColumnDef="update">
+    <th mat-header-cell *matHeaderCellDef> Actualizar </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button class="light-blue-icon" (click)="redirectToUpdate(element.payId)">
+        <mat-icon class="mat-18">create</mat-icon>
+      </button>
+    </td>
+  </ng-container>
 
-  <tr *ngFor="let paymentMethod of paymentMethods">
-    <td>{{paymentMethod.payId}}</td>
-    <td>{{paymentMethod.name}}</td>
-  </tr>
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Activar/Desactivar </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button color="warn" *ngIf="element.enable === 'Y'" (click)="desactivarMetodoDePago(element)">
+        <mat-icon class="mat-18">arrow_circle_down</mat-icon>
+      </button>
+      <button mat-icon-button class="success-icon" *ngIf="element.enable === 'N'" (click)="activarMetodoDePago(element)">
+        <mat-icon class="mat-18">arrow_circle_up</mat-icon>
+      </button>
+    </td>
+  </ng-container>
 
+  <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
 </table>
+<mat-paginator [pageSize]="6" [pageSizeOptions]="[2, 4, 6, 10, 20]">
+</mat-paginator>

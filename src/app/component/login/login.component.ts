@@ -66,14 +66,13 @@ export class LoginComponent implements OnInit {
               localStorage.setItem("role", resp.tipo);
               // Comunicación entre componentes
               this.dataSharingService.changeMessage("car_check");
+              window.location.reload();
             }, error => {
               console.error(error);
             });
           }, error => {
             console.error(error);
           });
-
-          this.router.navigate(['/home']);
         })
         .catch(e => {
           switch (e.code) {

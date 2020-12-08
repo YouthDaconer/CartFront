@@ -24,24 +24,29 @@ export class PaymentMethodService {
     return this.httpClient.get(this.url + 'findAll', { headers: headers });
   }
 
+  public findAllEnable(): Observable<any> {
+    let headers = this.createTokenHeader();
+    return this.httpClient.get(this.url + 'findAllEnable', { headers: headers });
+  }
+
   public findById(payId: string): Observable<any> {
     let headers = this.createTokenHeader();
-    return this.httpClient.get(this.url + 'findById/' + payId);
+    return this.httpClient.get(this.url + 'findById/' + payId, { headers: headers });
   }
 
   public save(paymentMethod: PaymentMethod): Observable<any> {
     let headers = this.createTokenHeader();
-    return this.httpClient.post(this.url + 'save', paymentMethod);
+    return this.httpClient.post(this.url + 'save', paymentMethod, { headers: headers });
   }
 
   public update(paymentMethod: PaymentMethod): Observable<any> {
     let headers = this.createTokenHeader();
-    return this.httpClient.put(this.url + 'update', paymentMethod);
+    return this.httpClient.put(this.url + 'update', paymentMethod, { headers: headers });
   }
 
   public delete(payId: string): Observable<any> {
     let headers = this.createTokenHeader();
-    return this.httpClient.delete(this.url + 'delete/' + payId);
+    return this.httpClient.delete(this.url + 'delete/' + payId, { headers: headers });
   }
 
 }

@@ -3,7 +3,7 @@
     <mat-toolbar-row>
       <img src="/assets/images/logo.png" width="50" style="margin-right: 25px;" alt="image">
       <span style="font-size: 30px;">
-        Mi Tienda
+        Techno Shop
       </span>
       <span class="example-fill-remaining-space"></span>
       <div *ngIf="isAuth()">
@@ -47,6 +47,10 @@
           <a mat-list-item routerLink="/customer-list">
             <mat-icon color="primary">supervisor_account</mat-icon>
             Clientes
+          </a>
+          <a mat-list-item routerLink="/payment-method-list">
+            <mat-icon color="primary">monetization_on</mat-icon>
+            Métodos de pago
           </a>
           <a mat-list-item routerLink="/ventas">
             <mat-icon color="primary">local_shipping</mat-icon>

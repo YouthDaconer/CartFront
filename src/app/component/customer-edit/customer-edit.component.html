@@ -52,7 +52,7 @@
             </mat-form-field>
 
             <app-loading-button [cargando]="cargando" texto="Guardar"></app-loading-button>
-            <a routerLink="/customer-list" mat-raised-button color="primary" style="margin-left: 10px">Volver</a>
+            <a *ngIf="roleLoggedIn == 0" routerLink="/customer-list" mat-raised-button color="primary" style="margin-left: 10px">Volver</a>
         </form>
     </div>
 </div>

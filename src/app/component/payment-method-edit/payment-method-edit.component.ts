@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PaymentMethod } from 'src/app/domain/paymentMethod';
+import { Enable } from 'src/app/domain/enable';
 import { PaymentMethodService } from 'src/app/service/payment-method.service';
+import { EnableService } from 'src/app/service/enable.service';
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-payment-method-edit',
@@ -10,26 +14,73 @@ import { PaymentMethodService } from 'src/app/service/payment-method.service';
 })
 export class PaymentMethodEditComponent implements OnInit {
 
-  // Id del paymentMethod
-  public proId: string;
-  public paymentMethod: PaymentMethod;
+  public paymentMethod: PaymentMethod = null;
+  public cargando = false;
 
-  constructor(public router: Router,
-    public activatedRouter: ActivatedRoute,
-    public paymentMethodService: PaymentMethodService) { }
+  formGroup: FormGroup;
+  titleAlert: string = '';
+  post: any = '';
 
-  ngOnInit(): void {
-    let params = this.activatedRouter.params['_value'];
-    this.proId = params.proId;
-    this.findById();
-    console.log(this.proId);
+  constructor(public paymentMethodService: PaymentMethodService,
+    public enableService: EnableService,
+    private snackBar: MatSnackBar,
+    private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private router: Router) { }
+
+  async ngOnInit() {
+    let roleLoggedIn = localStorage.getItem("role");
+    if (roleLoggedIn != "0") {
+      this.router.navigate(["/no-autorizado"]);
+    } else {
+      await this.createForm();
+      await this.getPaymentMethod();
+    }
   }
 
-  public findById(): void {
-    this.paymentMethodService.findById(this.proId).subscribe(data => {
+  public async getPaymentMethod() {
+    const id = this.activatedRoute.snapshot.paramMap.get("payId");
+    this.paymentMethodService.findById(id).subscribe(data => {
       this.paymentMethod = data;
-      console.table(this.paymentMethod);
-    })
+    }, error => {
+      console.error(error);
+    });
+  }
+
+  public update(): void {
+    let flag: boolean = false;
+    if (this.formGroup.status === "VALID") {
+      this.cargando = true;
+      this.paymentMethod.enable = 'Y';
+      this.paymentMethodService.update(this.paymentMethod).subscribe(ok => {
+        this.snackBar.open("Método de pago actualizado", "", {
+          duration: 1500,
+          horizontalPosition: "center",
+          verticalPosition: "top",
+        });
+        this.cargando = false;
+        this.router.navigate(['/payment-method-list']);
+      }, err => {
+        console.log(err);
+      });
+    }
+  }
+
+  createForm() {
+    this.formGroup = this.formBuilder.group({
+      'name': [null, [Validators.required, Validators.minLength(4), Validators.maxLength(255)]],
+      'validate': ''
+    });
+  }
+
+  onSubmit(post) {
+    this.post = post;
+  }
+
+  getErrorName() {
+    return this.formGroup.get('name').hasError('required') ? 'El nombre es requerido' :
+      this.formGroup.get('name').hasError('minlength') ? 'Mínimo 4 caracteres' :
+        this.formGroup.get('name').hasError('maxlength') ? 'Máximo 255 caracteres' : '';
   }
 
 }
