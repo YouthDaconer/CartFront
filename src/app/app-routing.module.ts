@@ -6,6 +6,7 @@ import { PaymentMethodListComponent } from './component/payment-method-list/paym
 import { ShoppingCartListComponent } from './component/shopping-cart-list/shopping-cart-list.component';
 import { ShoppingProductListComponent } from './component/shopping-product-list/shopping-product-list.component';
 import { CustomerEditComponent } from './component/customer-edit/customer-edit.component';
+import { CustomerShoppingCartComponent } from './component/customer-shopping-cart/customer-shopping-cart.component';
 import { ProductSaveComponent } from './component/product-save/product-save.component';
 import { ProductEditComponent } from './component/product-edit/product-edit.component';
 import { PaymentMethodSaveComponent } from './component/payment-method-save/payment-method-save.component';
@@ -20,6 +21,7 @@ import { ResetPasswordComponent } from './component/reset-password/reset-passwor
 import { TerminarCompraComponent } from './component/terminar-compra/terminar-compra.component';
 import { VentasComponent } from './component/ventas/ventas.component';
 import { DetalleDeVentaComponent } from "./component/detalle-de-venta/detalle-de-venta.component";
+import { NoAutorizadoComponent } from "./component/no-autorizado/no-autorizado.component";
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 
@@ -31,6 +33,11 @@ const routes: Routes = [
   },
   {
     path: 'customer-edit/:email', component: CustomerEditComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'customer-shopping-cart/:email', component: CustomerShoppingCartComponent,
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }
   },
@@ -104,6 +111,7 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }
   },
+  { path: 'no-autorizado', component: NoAutorizadoComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'login', component: LoginComponent },
   { path: '', component: LoginComponent }

@@ -14,6 +14,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AppComponent implements OnInit {
   title = 'cart-front';
   public shoppingProducts: ShoppingProduct[];
+  public linkCustomerShoppingCart: string = '';
+  public linkProfile: string = '';
+  public roleLoggedIn: string = '';
 
   constructor(private cartService: CartService,
     private dataSharingService: DataSharingService,
@@ -68,6 +71,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.isAuth()) {
+      this.roleLoggedIn = localStorage.getItem("role");
+      this.linkCustomerShoppingCart = "/customer-shopping-cart/" + JSON.parse(localStorage.getItem("user")).email;
+      this.linkProfile = "/customer-edit/" + JSON.parse(localStorage.getItem("user")).email;
+    }
     this.checkCurrentUserCart();
   }
 

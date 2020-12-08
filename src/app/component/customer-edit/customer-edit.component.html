@@ -21,7 +21,7 @@
             <mat-form-field class="form-element">
                 <input matInput placeholder="Dirección" required name="address" formControlName="address"
                     [(ngModel)]="customer.address">
-                <mat-icon matSuffix>perm_identity</mat-icon>
+                <mat-icon matSuffix>location_on</mat-icon>
                 <mat-error *ngIf="!formGroup.controls['address'].valid && formGroup.controls['address'].touched">
                     {{ getErrorAddress() }}
                 </mat-error>
@@ -30,7 +30,7 @@
             <mat-form-field class="form-element">
                 <input matInput placeholder="Teléfono" required name="phone" formControlName="phone"
                     [(ngModel)]="customer.phone" #phone>
-                <mat-icon matSuffix>perm_identity</mat-icon>
+                <mat-icon matSuffix>dialpad</mat-icon>
                 <mat-error *ngIf="!formGroup.controls['phone'].valid && formGroup.controls['phone'].touched">
                     {{ getErrorPhone() }}
                 </mat-error>

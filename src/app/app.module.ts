@@ -60,6 +60,8 @@ import { ResetPasswordComponent } from './component/reset-password/reset-passwor
 import { TerminarCompraComponent } from './component/terminar-compra/terminar-compra.component';
 import { VentasComponent } from './component/ventas/ventas.component';
 import { DetalleDeVentaComponent } from './component/detalle-de-venta/detalle-de-venta.component';
+import { CustomerShoppingCartComponent } from './component/customer-shopping-cart/customer-shopping-cart.component';
+import { NoAutorizadoComponent } from './component/no-autorizado/no-autorizado.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +85,9 @@ import { DetalleDeVentaComponent } from './component/detalle-de-venta/detalle-de
     ResetPasswordComponent,
     TerminarCompraComponent,
     VentasComponent,
-    DetalleDeVentaComponent
+    DetalleDeVentaComponent,
+    CustomerShoppingCartComponent,
+    NoAutorizadoComponent
   ],
   imports: [
     BrowserModule,

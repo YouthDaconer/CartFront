@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShoppingCartService } from "src/app/service/shopping-cart.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ShoppingCart } from 'src/app/domain/shoppingCart';
 import { CartService } from 'src/app/service/cart.service';
 
@@ -13,7 +13,8 @@ export class DetalleDeVentaComponent implements OnInit {
 
   constructor(private shoppingCartService: ShoppingCartService,
     private cartService: CartService,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute,
+    private router: Router) {
   }
 
   public shoppingCart: ShoppingCart = null;
@@ -24,12 +25,25 @@ export class DetalleDeVentaComponent implements OnInit {
   async ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get("id");
     await this.getShoppingCart(id);
-    await this.getShoppingProducts(id);
   }
 
   public async getShoppingCart(id: any) {
     this.shoppingCartService.findById(id).subscribe(res => {
       this.shoppingCart = res;
+      const email = this.shoppingCart.email;
+      let emailLogged = JSON.parse(localStorage.getItem("user")).email;
+      let roleLoggedIn = localStorage.getItem("role");
+      const id = this.activatedRoute.snapshot.paramMap.get("id");
+
+      if (email !== emailLogged) {
+        if (roleLoggedIn != "0") {
+          this.router.navigate(["/no-autorizado"]);
+        } else {
+          this.getShoppingProducts(id);
+        }
+      } else {
+        this.getShoppingProducts(id);
+      }
     }, error => {
       console.error(error);
     });

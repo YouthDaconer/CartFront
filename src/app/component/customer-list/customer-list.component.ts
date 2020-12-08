@@ -25,7 +25,12 @@ export class CustomerListComponent implements OnInit {
   constructor(private router: Router, public customerService: CustomerService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.findAll();
+    let roleLoggedIn = localStorage.getItem("role");
+    if (roleLoggedIn != "0") {
+      this.router.navigate(["/no-autorizado"]);
+    } else {
+      this.findAll();
+    }
   }
 
   findAll(): void {

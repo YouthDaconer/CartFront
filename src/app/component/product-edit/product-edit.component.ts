@@ -31,8 +31,13 @@ export class ProductEditComponent implements OnInit {
     private router: Router) { }
 
   async ngOnInit() {
-    await this.createForm();
-    await this.getProduct();
+    let roleLoggedIn = localStorage.getItem("role");
+    if (roleLoggedIn != "0") {
+      this.router.navigate(["/no-autorizado"]);
+    } else {
+      await this.createForm();
+      await this.getProduct();
+    }
   }
 
   public async getProduct() {

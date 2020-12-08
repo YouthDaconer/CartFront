@@ -8,11 +8,12 @@
       <span class="example-fill-remaining-space"></span>
       <div *ngIf="isAuth()">
         <button mat-raised-button [matMenuTriggerFor]="menu">
-          <span [matBadge]="numProductos()+''" matBadgeOverlap="false"
-            matBadgePosition="above after">Carrito de compras</span>
+          <span [matBadge]="numProductos()+''" matBadgeOverlap="false" matBadgePosition="above after">Carrito de
+            compras</span>
         </button>
         <mat-menu #menu="matMenu" [overlapTrigger]="false">
-          <button *ngFor="let shp of shoppingProducts;" mat-menu-item style="white-space: normal" (click)="detalles(shp.proId)">{{shp.name}}
+          <button *ngFor="let shp of shoppingProducts;" mat-menu-item style="white-space: normal"
+            (click)="detalles(shp.proId)">{{shp.name}}
             {{shp.price | currency}} -
             {{ shp.quantity }} Unid.</button>
           <button mat-menu-item>
@@ -36,26 +37,36 @@
   <mat-sidenav-container class="contenido">
     <mat-sidenav style="min-width: 300px;" #cajon opened mode="side" *ngIf="isAuth()">
       <mat-nav-list>
-        <br/>
-        <p style="margin-left: 4px;">Administrador</p>
-        <a mat-list-item routerLink="/product-list">
-          <mat-icon color="primary">list_alt</mat-icon>
-          Productos
-        </a>
-        <a mat-list-item routerLink="/customer-list">
-          <mat-icon color="primary">supervisor_account</mat-icon>
-          Clientes
-        </a>
-        <a mat-list-item routerLink="/ventas">
-          <mat-icon color="primary">local_shipping</mat-icon>
-          Ventas
-        </a>
-        <mat-divider></mat-divider>
-        <br/>
+        <div *ngIf="roleLoggedIn == '0'">
+          <br />
+          <p style="margin-left: 4px;">Administrador</p>
+          <a mat-list-item routerLink="/product-list">
+            <mat-icon color="primary">list_alt</mat-icon>
+            Productos
+          </a>
+          <a mat-list-item routerLink="/customer-list">
+            <mat-icon color="primary">supervisor_account</mat-icon>
+            Clientes
+          </a>
+          <a mat-list-item routerLink="/ventas">
+            <mat-icon color="primary">local_shipping</mat-icon>
+            Ventas
+          </a>
+          <mat-divider></mat-divider>
+        </div>
+        <br />
         <p style="margin-left: 4px;">Cliente</p>
         <a mat-list-item routerLink="/tienda">
           <mat-icon color="primary">store</mat-icon>
           Ver tienda
+        </a>
+        <a mat-list-item *ngIf="linkProfile != null" [routerLink]="linkProfile">
+          <mat-icon color="primary">perm_identity</mat-icon>
+          Tu Perfil
+        </a>
+        <a mat-list-item *ngIf="linkCustomerShoppingCart != null" [routerLink]="linkCustomerShoppingCart">
+          <mat-icon color="primary">shopping_bag</mat-icon>
+          Tus compras
         </a>
         <mat-divider></mat-divider>
         <a mat-list-item href="https://google.com/" target="_blank">

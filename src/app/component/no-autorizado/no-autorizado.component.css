@@ -1,0 +1,31 @@
+mat-card {
+    width: 50%;
+    margin: 1% auto;
+    border-radius: 8px;
+}
+
+mat-card-content {
+    margin-top: 20px;
+}
+
+h1{
+    text-align: center;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+}
+
+.login-page {
+    top: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: scroll;
+  }

@@ -35,7 +35,18 @@ export class CustomerEditComponent implements OnInit {
     private router: Router) { }
 
   async ngOnInit() {
-    this.getCustomer();
+    const email = this.activatedRoute.snapshot.paramMap.get("email");
+    let emailLogged = JSON.parse(localStorage.getItem("user")).email;
+    let roleLoggedIn = localStorage.getItem("role");
+    if (email !== emailLogged) {
+      if (roleLoggedIn != "0") {
+        this.router.navigate(["/no-autorizado"]);
+      } else {
+        this.getCustomer();
+      }
+    } else {
+      this.getCustomer();
+    }
   }
 
   public async getCustomer() {

@@ -24,7 +24,12 @@ export class ProductListComponent implements OnInit {
   constructor(private router: Router, public productService: ProductService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.findAll();
+    let roleLoggedIn = localStorage.getItem("role");
+    if (roleLoggedIn != "0") {
+      this.router.navigate(["/no-autorizado"]);
+    } else {
+      this.findAll();
+    }
   }
 
   findAll(): void {

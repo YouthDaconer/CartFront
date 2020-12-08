@@ -31,9 +31,14 @@ export class ProductSaveComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.product = new Product("", "", 0, "", "", "Y");
-    this.findAllEnable();
-    this.createForm();
+    let roleLoggedIn = localStorage.getItem("role");
+    if (roleLoggedIn != "0") {
+      this.router.navigate(["/no-autorizado"]);
+    } else {
+      this.product = new Product("", "", 0, "", "", "Y");
+      this.findAllEnable();
+      this.createForm();
+    }
   }
 
   public findAllEnable(): void {
@@ -102,7 +107,7 @@ export class ProductSaveComponent implements OnInit {
   }
 
   checkPrice(): boolean {
-    if (this.price.nativeElement.value  === "COP$ 0,00") {
+    if (this.price.nativeElement.value === "COP$ 0,00") {
       this.snackBar.open("Por favor indique el precio del producto", "", {
         duration: 1500,
         horizontalPosition: "start",

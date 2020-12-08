@@ -62,8 +62,13 @@ export class LoginComponent implements OnInit {
           this.authService.loginUser(this.user).subscribe(data => {
             localStorage.setItem("token", data.token);
             localStorage.setItem("usuario", JSON.stringify(this.user));
-            // Comunicación entre componentes
-            this.dataSharingService.changeMessage("car_check");
+            this.customerService.findById(post.email).subscribe(resp => {
+              localStorage.setItem("role", resp.tipo);
+              // Comunicación entre componentes
+              this.dataSharingService.changeMessage("car_check");
+            }, error => {
+              console.error(error);
+            });
           }, error => {
             console.error(error);
           });
@@ -100,7 +105,7 @@ export class LoginComponent implements OnInit {
         .then(() => {
           this.angularFireAuth.authState.subscribe(user => {
             this.customer.token = user.uid;
-            this.customer.tipo = 0;
+            this.customer.tipo = 1;
             this.customer.enable = 'Y';
             this.authCartService.sendEmailVerification();
             this.customerService.save(this.customer).subscribe(ok => {

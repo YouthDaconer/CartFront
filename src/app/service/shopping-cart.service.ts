@@ -23,6 +23,11 @@ export class ShoppingCartService {
     return this.httpClient.get(this.url + 'findAll', { headers: headers });
   }
 
+  public findByEmail(email: string): Observable<any> {
+    let headers = this.createTokenHeader();
+    return this.httpClient.get(this.url + 'findByEmail/' + email, { headers: headers });
+  }
+
   public findById(carId: string): Observable<any> {
     let headers = this.createTokenHeader();
     return this.httpClient.get(this.url + 'findById/' + carId, { headers: headers });
