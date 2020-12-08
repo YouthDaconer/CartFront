@@ -39,5 +39,6 @@
     <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
   </table>
   <br>
-  <a routerLink="/ventas" mat-raised-button color="accent">Volver</a>
+  <a *ngIf="roleLoggedIn == '0'" (click)="goBack()" mat-raised-button color="accent">Volver</a>
+  <a *ngIf="roleLoggedIn == '1'" [routerLink]="linkCompras" mat-raised-button color="accent">Volver</a>
 </mat-card>

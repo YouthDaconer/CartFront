@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   public linkCustomerShoppingCart: string = '';
   public linkProfile: string = '';
   public roleLoggedIn: string = '';
+  public routeBefore: string = '/home';
 
   constructor(private cartService: CartService,
     private dataSharingService: DataSharingService,
@@ -33,6 +34,12 @@ export class AppComponent implements OnInit {
           break;
         case "car_check":
           this.checkCurrentUserCart();
+          break;
+        case "route_before":
+          this.routeBefore = this.router.url;
+          break;
+        case "go_back":
+          this.router.navigate([this.routeBefore]);
           break;
         default:
           break;

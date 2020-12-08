@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:9090/',
-  //apiUrl: 'https://cart-cacu.herokuapp.com/'
+  //apiUrl: 'http://localhost:9090/',
+  apiUrl: 'https://cart-cacu.herokuapp.com/',
   firebase: {
     apiKey: "AIzaSyAkmf7hfLuZW_rBXlUlVX_IGGlNMR91twI",
     authDomain: "cart-cacu.firebaseapp.com",

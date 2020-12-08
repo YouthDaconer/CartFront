@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ShoppingCart } from 'src/app/domain/shoppingCart';
+import { DataSharingService } from 'src/app/service/data-sharing.service';
 
 @Component({
   selector: 'app-ventas',
@@ -14,7 +15,9 @@ import { ShoppingCart } from 'src/app/domain/shoppingCart';
 })
 export class VentasComponent implements OnInit {
 
-  constructor(private shoppingCartService: ShoppingCartService, private router: Router) {
+  constructor(private shoppingCartService: ShoppingCartService,
+    private router: Router,
+    private dataSharingService: DataSharingService) {
   }
 
   public columnas = ['cliente', 'direccion', 'cantidad', 'metodoPago', 'total', 'detalles'];
@@ -54,6 +57,8 @@ export class VentasComponent implements OnInit {
   }
 
   public verDetalle(id) {
+    // Comunicación entre componentes
+    this.dataSharingService.changeMessage("route_before");
     this.router.navigate(["/detalle-venta", id]);
   }
 

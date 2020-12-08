@@ -3,6 +3,7 @@ import { ShoppingCartService } from "src/app/service/shopping-cart.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ShoppingCart } from 'src/app/domain/shoppingCart';
 import { CartService } from 'src/app/service/cart.service';
+import { DataSharingService } from 'src/app/service/data-sharing.service';
 
 @Component({
   selector: 'app-detalle-de-venta',
@@ -14,17 +15,26 @@ export class DetalleDeVentaComponent implements OnInit {
   constructor(private shoppingCartService: ShoppingCartService,
     private cartService: CartService,
     private activatedRoute: ActivatedRoute,
+    private dataSharingService: DataSharingService,
     private router: Router) {
   }
 
   public shoppingCart: ShoppingCart = null;
   public shoppingProducts = [];
+  public roleLoggedIn = localStorage.getItem("role");
+  public linkCompras: string = '';
 
   public columnas = ['nombre', 'imagen', 'cantidad', 'precio'];
 
   async ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get("id");
+    this.linkCompras = "/customer-shopping-cart/" + JSON.parse(localStorage.getItem("user")).email;
     await this.getShoppingCart(id);
+  }
+
+  public goBack() {
+    // Comunicación entre componentes
+    this.dataSharingService.changeMessage("go_back");
   }
 
   public async getShoppingCart(id: any) {
